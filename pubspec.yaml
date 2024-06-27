@@ -39,10 +39,19 @@ dependencies:
   bloc: ^8.1.4
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
+  formz: ^0.6.0
+  equatable: ^2.0.0
 
+  authentication_repository:
+    path: packages/authentication_repository
+  user_repository:
+    path: packages/user_repository
+  
 dev_dependencies:
   flutter_test:
     sdk: flutter
+  mocktail: ^1.0.0
+  bloc_test: ^9.0.0
 
 
 
