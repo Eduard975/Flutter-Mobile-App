@@ -46,7 +46,9 @@ class AuthenticationBloc
         return emit(
           user != null
               ? AuthenticationState(
-                  status: AuthenticationStatus.authenticated, user: user)
+                  status: AuthenticationStatus.authenticated,
+                  user: user,
+                )
               : const AuthenticationState(
                   status: AuthenticationStatus.unauthenticated),
         );

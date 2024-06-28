@@ -31,16 +31,16 @@ dependencies:
   flutter:
     sdk: flutter
   device_preview: 1.2.0
-
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
-  cupertino_icons: ^1.0.6
   flutter_bloc: ^8.1.6
   bloc: ^8.1.4
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
   formz: ^0.6.0
   equatable: ^2.0.0
+
+  # The following adds the Cupertino Icons font to your application.
+  # Use with the CupertinoIcons class for iOS style icons.
+  cupertino_icons: ^1.0.6
 
   authentication_repository:
     path: packages/authentication_repository
@@ -52,8 +52,9 @@ dev_dependencies:
     sdk: flutter
   mocktail: ^1.0.0
   bloc_test: ^9.0.0
-
-
+  build_runner: ^2.4.11
+  freezed: ^2.5.2
+  json_serializable: ^6.8.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
@@ -61,9 +62,7 @@ dev_dependencies:
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
   flutter_lints: ^3.0.0
-  build_runner: ^2.4.11
-  freezed: ^2.5.2
-  json_serializable: ^6.8.0
+
 
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
