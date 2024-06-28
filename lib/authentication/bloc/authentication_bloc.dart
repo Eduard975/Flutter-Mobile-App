@@ -2,7 +2,6 @@ import 'dart:async';
 
 import 'package:authentication_repository/authentification_repository.dart';
 import 'package:bloc/bloc.dart';
-import 'package:equatable/equatable.dart';
 import 'package:user_repository/user_repository.dart';
 import 'authentication_state.dart';
 
@@ -15,7 +14,7 @@ class AuthenticationBloc
     required UserRepository userRepository,
   })  : _authenticationRepository = authenticationRepository,
         _userRepository = userRepository,
-        super(const AuthenticationState.unknown()) {
+        super(const AuthenticationState()) {
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
     _authenticationStatusSubscription = _authenticationRepository.status.listen(
@@ -40,16 +39,19 @@ class AuthenticationBloc
   ) async {
     switch (event.status) {
       case AuthenticationStatus.unauthenticated:
-        return emit(const AuthenticationState.unauthenticated());
+        return emit(const AuthenticationState(
+            status: AuthenticationStatus.unauthenticated));
       case AuthenticationStatus.authenticated:
         final user = await _tryGetUser();
         return emit(
           user != null
-              ? AuthenticationState.authenticated(user)
-              : const AuthenticationState.unauthenticated(),
+              ? AuthenticationState(
+                  status: AuthenticationStatus.authenticated, user: user)
+              : const AuthenticationState(
+                  status: AuthenticationStatus.unauthenticated),
         );
       case AuthenticationStatus.unknown:
-        return emit(const AuthenticationState.unknown());
+        return emit(const AuthenticationState());
     }
   }
 
