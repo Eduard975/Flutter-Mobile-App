@@ -1,6 +1,6 @@
 import 'dart:async';
 
-enum RegistrationStatus { unknown, unregistered, registred }
+enum RegistrationStatus { unknown, unregistered, registered }
 
 class RegistrationRepository {
   final _controller = StreamController<RegistrationStatus>();
@@ -18,7 +18,7 @@ class RegistrationRepository {
   }) async {
     await Future.delayed(
       const Duration(milliseconds: 300),
-      () => _controller.add(RegistrationStatus.registred),
+      () => _controller.add(RegistrationStatus.registered),
     );
   }
 

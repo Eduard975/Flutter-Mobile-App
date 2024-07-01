@@ -1,4 +1,3 @@
-import 'package:first_app/login/login.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -34,7 +33,7 @@ class RegisterForm extends StatelessWidget {
             Row(mainAxisSize: MainAxisSize.min, children: [
               _RegisterButton(),
               const Padding(padding: EdgeInsets.all(12)),
-              _BackButton(),
+              //_BackButton(),
             ])
           ],
         ),
@@ -111,23 +110,24 @@ class _PasswordInput extends StatelessWidget {
   }
 }
 
-class _BackButton extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return BlocBuilder<RegisterBloc, RegisterState>(
-      builder: (context, state) {
-        return state.status.isInProgress
-            ? const CircularProgressIndicator()
-            : ElevatedButton(
-                key: const Key('registerForm_back_elevatedButton'),
-                onPressed: () =>
-                    Navigator.of(context).push<void>(LoginPage.route()),
-                child: const Text('Back to Login'),
-              );
-      },
-    );
-  }
-}
+// class _BackButton extends StatelessWidget {
+//   @override
+//   Widget build(BuildContext context) {
+//     return BlocBuilder<RegisterBloc, RegisterState>(
+//       builder: (context, state) {
+//         return state.status.isInProgress
+//             ? const CircularProgressIndicator()
+//             : ElevatedButton(
+//                 key: const Key('registerForm_back_elevatedButton'),
+//                 onPressed: () => {
+//                   Navigator.popUntil(context, ModalRoute.withName('/login'))
+//                 },
+//                 child: const Text('Back to Login'),
+//               );
+//       },
+//     );
+//   }
+// }
 
 class _RegisterButton extends StatelessWidget {
   @override
@@ -138,8 +138,13 @@ class _RegisterButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 key: const Key('registerForm_continue_elevatedButton'),
-                onPressed: () =>
-                    Navigator.of(context).push<void>(RegisterPage.route()),
+                onPressed: state.isValid
+                    ? () {
+                        context
+                            .read<RegisterBloc>()
+                            .add(const RegisterSubmitted());
+                      }
+                    : null,
                 child: const Text('Register'),
               );
       },

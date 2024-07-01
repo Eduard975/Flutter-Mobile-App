@@ -1,3 +1,4 @@
+import 'package:first_app/register/view/register_page.dart';
 import 'package:flutter/material.dart';
 
 // Local packages
@@ -7,6 +8,7 @@ import 'package:first_app/authentication/authentication.dart';
 import 'package:first_app/home/home.dart';
 import 'package:first_app/login/login.dart';
 import 'package:first_app/splash/splash.dart';
+import 'package:registration_repository/registration_repository.dart';
 import 'package:user_repository/user_repository.dart';
 
 class App extends StatefulWidget {
@@ -19,12 +21,14 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late final AuthenticationRepository _authenticationRepository;
   late final UserRepository _userRepository;
+  late final RegistrationRepository _registrationRepository;
 
   @override
   void initState() {
     super.initState();
     _authenticationRepository = AuthenticationRepository();
     _userRepository = UserRepository();
+    _registrationRepository = RegistrationRepository();
   }
 
   @override
@@ -35,8 +39,11 @@ class _AppState extends State<App> {
 
   @override
   Widget build(BuildContext context) {
-    return RepositoryProvider.value(
-      value: _authenticationRepository,
+    return MultiRepositoryProvider(
+      providers: [
+        RepositoryProvider.value(value: _authenticationRepository),
+        RepositoryProvider.value(value: _registrationRepository),
+      ],
       child: BlocProvider(
         create: (_) => AuthenticationBloc(
           authenticationRepository: _authenticationRepository,
@@ -64,20 +71,23 @@ class _AppViewState extends State<AppView> {
   Widget build(BuildContext context) {
     return MaterialApp(
       navigatorKey: _navigatorKey,
+      routes: {
+        '/': (context) => const SplashPage(),
+        '/home': (context) => const HomePage(),
+        '/login': (context) => const LoginPage(),
+        '/register': (context) => const RegisterPage(),
+      },
+      initialRoute: '/',
       builder: (context, child) {
         return BlocListener<AuthenticationBloc, AuthenticationState>(
           listener: (context, state) {
             switch (state.status) {
               case AuthenticationStatus.authenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  HomePage.route(),
-                  (route) => false,
-                );
+                _navigator.pushNamedAndRemoveUntil('/home', (route) => false);
+                break;
               case AuthenticationStatus.unauthenticated:
-                _navigator.pushAndRemoveUntil<void>(
-                  LoginPage.route(),
-                  (route) => false,
-                );
+                _navigator.pushNamedAndRemoveUntil('/login', (route) => false);
+                break;
               case AuthenticationStatus.unknown:
                 break;
             }
@@ -85,7 +95,6 @@ class _AppViewState extends State<AppView> {
           child: child,
         );
       },
-      onGenerateRoute: (_) => SplashPage.route(),
     );
   }
 }

@@ -3,7 +3,7 @@ import 'package:registration_repository/registration_repository.dart';
 import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:first_app/register/register.dart';
-import 'package:first_app/login/models/models.dart';
+import 'package:first_app/models/models.dart';
 
 part 'register_event.dart';
 

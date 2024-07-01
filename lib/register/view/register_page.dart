@@ -12,17 +12,25 @@ class RegisterPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    var registrationRepository =
+        RepositoryProvider.of<RegistrationRepository>(context);
     return Scaffold(
+      appBar: AppBar(
+        automaticallyImplyLeading: true,
+        title: const Text("Inregistrare"),
+      ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: BlocProvider(
+          lazy: false,
           create: (context) {
             return RegisterBloc(
-              registrationRepository:
-                  RepositoryProvider.of<RegistrationRepository>(context),
+              registrationRepository: registrationRepository,
             );
           },
-          child: const RegisterForm(),
+          child: Builder(builder: (context) {
+            return const RegisterForm();
+          }),
         ),
       ),
     );

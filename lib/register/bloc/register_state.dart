@@ -1,7 +1,7 @@
 import 'package:freezed_annotation/freezed_annotation.dart';
 import 'package:flutter/foundation.dart';
 import 'package:formz/formz.dart';
-import 'package:first_app/login/models/models.dart';
+import 'package:first_app/models/models.dart';
 part 'register_state.freezed.dart';
 
 @freezed

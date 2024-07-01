@@ -1,4 +1,3 @@
-import 'package:first_app/register/register.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
@@ -114,8 +113,7 @@ class _RegisterButton extends StatelessWidget {
             ? const CircularProgressIndicator()
             : ElevatedButton(
                 key: const Key('registerForm_continue_elevatedButton'),
-                onPressed: () =>
-                    Navigator.of(context).push<void>(RegisterPage.route()),
+                onPressed: () => Navigator.pushNamed(context, '/register'),
                 child: const Text('Register'),
               );
       },
