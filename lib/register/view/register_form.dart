@@ -33,7 +33,6 @@ class RegisterForm extends StatelessWidget {
             Row(mainAxisSize: MainAxisSize.min, children: [
               _RegisterButton(),
               const Padding(padding: EdgeInsets.all(12)),
-              //_BackButton(),
             ])
           ],
         ),
@@ -109,25 +108,6 @@ class _PasswordInput extends StatelessWidget {
     );
   }
 }
-
-// class _BackButton extends StatelessWidget {
-//   @override
-//   Widget build(BuildContext context) {
-//     return BlocBuilder<RegisterBloc, RegisterState>(
-//       builder: (context, state) {
-//         return state.status.isInProgress
-//             ? const CircularProgressIndicator()
-//             : ElevatedButton(
-//                 key: const Key('registerForm_back_elevatedButton'),
-//                 onPressed: () => {
-//                   Navigator.popUntil(context, ModalRoute.withName('/login'))
-//                 },
-//                 child: const Text('Back to Login'),
-//               );
-//       },
-//     );
-//   }
-// }
 
 class _RegisterButton extends StatelessWidget {
   @override
