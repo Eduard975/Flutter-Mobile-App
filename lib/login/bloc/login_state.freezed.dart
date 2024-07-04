@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LoginState {
   FormzSubmissionStatus get status => throw _privateConstructorUsedError;
-  Username get username => throw _privateConstructorUsedError;
+  Username get email => throw _privateConstructorUsedError;
   Password get password => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $LoginStateCopyWith<$Res> {
   @useResult
   $Res call(
       {FormzSubmissionStatus status,
-      Username username,
+      Username email,
       Password password,
       bool isValid});
 }
@@ -53,7 +53,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
   @override
   $Res call({
     Object? status = null,
-    Object? username = null,
+    Object? email = null,
     Object? password = null,
     Object? isValid = null,
   }) {
@@ -62,9 +62,9 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as Username,
       password: null == password
           ? _value.password
@@ -88,7 +88,7 @@ abstract class _$$LoginStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {FormzSubmissionStatus status,
-      Username username,
+      Username email,
       Password password,
       bool isValid});
 }
@@ -105,7 +105,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
-    Object? username = null,
+    Object? email = null,
     Object? password = null,
     Object? isValid = null,
   }) {
@@ -114,9 +114,9 @@ class __$$LoginStateImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
-      username: null == username
-          ? _value.username
-          : username // ignore: cast_nullable_to_non_nullable
+      email: null == email
+          ? _value.email
+          : email // ignore: cast_nullable_to_non_nullable
               as Username,
       password: null == password
           ? _value.password
@@ -135,7 +135,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
 class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   const _$LoginStateImpl(
       {this.status = FormzSubmissionStatus.initial,
-      this.username = const Username.pure(),
+      this.email = const Username.pure(),
       this.password = const Password.pure(),
       this.isValid = false});
 
@@ -144,7 +144,7 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   final FormzSubmissionStatus status;
   @override
   @JsonKey()
-  final Username username;
+  final Username email;
   @override
   @JsonKey()
   final Password password;
@@ -154,7 +154,7 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'LoginState(status: $status, username: $username, password: $password, isValid: $isValid)';
+    return 'LoginState(status: $status, email: $email, password: $password, isValid: $isValid)';
   }
 
   @override
@@ -163,7 +163,7 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
     properties
       ..add(DiagnosticsProperty('type', 'LoginState'))
       ..add(DiagnosticsProperty('status', status))
-      ..add(DiagnosticsProperty('username', username))
+      ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('password', password))
       ..add(DiagnosticsProperty('isValid', isValid));
   }
@@ -174,8 +174,7 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
         (other.runtimeType == runtimeType &&
             other is _$LoginStateImpl &&
             (identical(other.status, status) || other.status == status) &&
-            (identical(other.username, username) ||
-                other.username == username) &&
+            (identical(other.email, email) || other.email == email) &&
             (identical(other.password, password) ||
                 other.password == password) &&
             (identical(other.isValid, isValid) || other.isValid == isValid));
@@ -183,7 +182,7 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
 
   @override
   int get hashCode =>
-      Object.hash(runtimeType, status, username, password, isValid);
+      Object.hash(runtimeType, status, email, password, isValid);
 
   @JsonKey(ignore: true)
   @override
@@ -195,14 +194,14 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
 abstract class _LoginState implements LoginState {
   const factory _LoginState(
       {final FormzSubmissionStatus status,
-      final Username username,
+      final Username email,
       final Password password,
       final bool isValid}) = _$LoginStateImpl;
 
   @override
   FormzSubmissionStatus get status;
   @override
-  Username get username;
+  Username get email;
   @override
   Password get password;
   @override

@@ -30,10 +30,7 @@ class RegisterForm extends StatelessWidget {
             const Padding(padding: EdgeInsets.all(12)),
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
-            Row(mainAxisSize: MainAxisSize.min, children: [
-              _RegisterButton(),
-              const Padding(padding: EdgeInsets.all(12)),
-            ])
+            _RegisterButton(),
           ],
         ),
       ),

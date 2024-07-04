@@ -11,9 +11,7 @@ class AuthenticationBloc
     extends Bloc<AuthenticationEvent, AuthenticationState> {
   AuthenticationBloc({
     required AuthenticationRepository authenticationRepository,
-    required UserRepository userRepository,
   })  : _authenticationRepository = authenticationRepository,
-        _userRepository = userRepository,
         super(const AuthenticationState()) {
     on<_AuthenticationStatusChanged>(_onAuthenticationStatusChanged);
     on<AuthenticationLogoutRequested>(_onAuthenticationLogoutRequested);
@@ -23,7 +21,6 @@ class AuthenticationBloc
   }
 
   final AuthenticationRepository _authenticationRepository;
-  final UserRepository _userRepository;
   late StreamSubscription<AuthenticationStatus>
       _authenticationStatusSubscription;
 
@@ -64,12 +61,12 @@ class AuthenticationBloc
     _authenticationRepository.logOut();
   }
 
-  Future<User?> _tryGetUser() async {
+  Future<User?> _tryGetUser() {
     try {
-      final user = await _userRepository.getUser();
-      return user;
+      final user = _authenticationRepository.user;
+      return user.first;
     } catch (_) {
-      return null;
+      throw const LogInWithGoogleFailure("user-not-found");
     }
   }
 }

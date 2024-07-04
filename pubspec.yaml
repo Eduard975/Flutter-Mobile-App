@@ -48,6 +48,7 @@ dependencies:
     path: packages/user_repository
   registration_repository:
     path: packages/registration_repository
+  firebase_core: ^2.32.0
   
 dev_dependencies:
   flutter_test:
@@ -57,6 +58,8 @@ dev_dependencies:
   build_runner: ^2.4.11
   freezed: ^2.5.2
   json_serializable: ^6.8.0
+  firebase_auth: ^4.4.0
+  cloud_firestore: ^4.15.5
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
