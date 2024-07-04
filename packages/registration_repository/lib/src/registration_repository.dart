@@ -66,8 +66,8 @@ class RegistrationRepository {
       }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw RegisterWithEmailAndPasswordFailure.fromCode(e.code);
-    } catch (_) {
-      throw const RegisterWithEmailAndPasswordFailure();
+    } catch (e) {
+      throw e;
     }
   }
 }

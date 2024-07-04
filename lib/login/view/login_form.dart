@@ -24,7 +24,7 @@ class LoginForm extends StatelessWidget {
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            _UsernameInput(),
+            _EmailInput(),
             const Padding(padding: EdgeInsets.all(12)),
             _PasswordInput(),
             const Padding(padding: EdgeInsets.all(12)),
@@ -40,7 +40,7 @@ class LoginForm extends StatelessWidget {
   }
 }
 
-class _UsernameInput extends StatelessWidget {
+class _EmailInput extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<LoginBloc, LoginState>(
@@ -48,8 +48,9 @@ class _UsernameInput extends StatelessWidget {
       builder: (context, state) {
         return TextField(
           key: const Key('loginForm_emailInput_textField'),
-          onChanged: (username) =>
-              context.read<LoginBloc>().add(LoginEmailChanged(username)),
+          onChanged: (email) => context.read<LoginBloc>().add(LoginEmailChanged(
+                email,
+              )),
           decoration: InputDecoration(
             labelText: 'email',
             errorText:

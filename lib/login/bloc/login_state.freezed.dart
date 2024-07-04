@@ -17,7 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$LoginState {
   FormzSubmissionStatus get status => throw _privateConstructorUsedError;
-  Username get email => throw _privateConstructorUsedError;
+  Email get email => throw _privateConstructorUsedError;
   Password get password => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
 
@@ -34,7 +34,7 @@ abstract class $LoginStateCopyWith<$Res> {
   @useResult
   $Res call(
       {FormzSubmissionStatus status,
-      Username email,
+      Email email,
       Password password,
       bool isValid});
 }
@@ -65,7 +65,7 @@ class _$LoginStateCopyWithImpl<$Res, $Val extends LoginState>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as Username,
+              as Email,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
@@ -88,7 +88,7 @@ abstract class _$$LoginStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {FormzSubmissionStatus status,
-      Username email,
+      Email email,
       Password password,
       bool isValid});
 }
@@ -117,7 +117,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
-              as Username,
+              as Email,
       password: null == password
           ? _value.password
           : password // ignore: cast_nullable_to_non_nullable
@@ -135,7 +135,7 @@ class __$$LoginStateImplCopyWithImpl<$Res>
 class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   const _$LoginStateImpl(
       {this.status = FormzSubmissionStatus.initial,
-      this.email = const Username.pure(),
+      this.email = const Email.pure(),
       this.password = const Password.pure(),
       this.isValid = false});
 
@@ -144,7 +144,7 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
   final FormzSubmissionStatus status;
   @override
   @JsonKey()
-  final Username email;
+  final Email email;
   @override
   @JsonKey()
   final Password password;
@@ -194,14 +194,14 @@ class _$LoginStateImpl with DiagnosticableTreeMixin implements _LoginState {
 abstract class _LoginState implements LoginState {
   const factory _LoginState(
       {final FormzSubmissionStatus status,
-      final Username email,
+      final Email email,
       final Password password,
       final bool isValid}) = _$LoginStateImpl;
 
   @override
   FormzSubmissionStatus get status;
   @override
-  Username get email;
+  Email get email;
   @override
   Password get password;
   @override

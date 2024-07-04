@@ -4,7 +4,7 @@ import 'package:formz/formz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:first_app/register/register.dart';
 import 'package:first_app/models/models.dart';
-
+import 'dart:developer' as developer;
 part 'register_event.dart';
 
 class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
@@ -31,6 +31,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         isValid: Formz.validate([email, state.username, state.password]),
       ),
     );
+    developer.log(
+      '''
+      My param:${email}\n
+      Email: ${state.email}\n
+      Username:${state.username}\n
+      Password:${state.password}''',
+      name: 'LOG email change',
+    );
   }
 
   void _onUsernameChanged(
@@ -43,6 +51,14 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         username: username,
         isValid: Formz.validate([state.email, username, state.password]),
       ),
+    );
+    developer.log(
+      '''
+      My param:${username}\n
+      Email: ${state.email}\n
+      Username:${state.username}\n
+      Password:${state.password}''',
+      name: 'LOG username change',
     );
   }
 
@@ -57,12 +73,28 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         isValid: Formz.validate([state.email, state.username, password]),
       ),
     );
+    developer.log(
+      '''
+      My param:${password}\n
+      Email: ${state.email}\n
+      Username:${state.username}\n
+      Password:${state.password}''',
+      name: 'LOG pass change',
+    );
   }
 
   Future<void> _onSubmitted(
     RegisterSubmitted event,
     Emitter<RegisterState> emit,
   ) async {
+    developer.log(
+      '''
+          State: ${state.isValid}
+          Email: ${state.email}\n
+          Username:${state.username}\n
+          Password:${state.password}''',
+      name: 'LOG submit values',
+    );
     if (state.isValid) {
       emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
       try {
@@ -71,6 +103,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
           name: state.username.value,
           password: state.password.value,
         );
+
         emit(state.copyWith(status: FormzSubmissionStatus.success));
       } catch (_) {
         emit(state.copyWith(status: FormzSubmissionStatus.failure));

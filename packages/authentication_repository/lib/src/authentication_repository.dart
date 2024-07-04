@@ -148,6 +148,9 @@ class AuthenticationRepository {
         email: email,
         password: password,
       );
+      await Future(
+        () => _controller.add(AuthenticationStatus.authenticated),
+      );
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithEmailAndPasswordFailure.fromCode(e.code);
     } catch (_) {
@@ -161,6 +164,9 @@ class AuthenticationRepository {
         _firebaseAuth.signOut(),
         _googleSignIn.signOut(),
       ]);
+      await Future(
+        () => _controller.add(AuthenticationStatus.unauthenticated),
+      );
     } catch (_) {
       throw LogOutFailure();
     }

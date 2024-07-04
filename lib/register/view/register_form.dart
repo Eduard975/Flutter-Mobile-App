@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import 'dart:developer' as developer;
 
 import '../register.dart';
 
@@ -47,13 +48,13 @@ class _EmailInput extends StatelessWidget {
         return TextField(
           key: const Key('registerForm_emailInput_textField'),
           onChanged: (email) =>
-              context.read<RegisterBloc>().add(RegisterUsernameChanged(
+              context.read<RegisterBloc>().add(RegisterEmailChanged(
                     email,
                   )),
           decoration: InputDecoration(
             labelText: 'email',
             errorText:
-                state.username.displayError != null ? 'invalid email' : null,
+                state.email.displayError != null ? 'invalid email' : null,
           ),
         );
       },
@@ -111,6 +112,14 @@ class _RegisterButton extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<RegisterBloc, RegisterState>(
       builder: (context, state) {
+        developer.log(
+          '''
+      My param:${state.isValid}\n
+      Email: ${state.email}\n
+      Username:${state.username}\n
+      Password:${state.username}''',
+          name: 'LOG reg button change',
+        );
         return state.status.isInProgress
             ? const CircularProgressIndicator()
             : ElevatedButton(
@@ -120,6 +129,10 @@ class _RegisterButton extends StatelessWidget {
                         context
                             .read<RegisterBloc>()
                             .add(const RegisterSubmitted());
+                        Navigator.popUntil(
+                          context,
+                          ModalRoute.withName('/login'),
+                        );
                       }
                     : null,
                 child: const Text('Register'),

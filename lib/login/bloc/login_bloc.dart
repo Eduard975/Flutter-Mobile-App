@@ -3,6 +3,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:first_app/login/login.dart';
 import 'package:formz/formz.dart';
+import 'dart:developer' as developer;
 
 part 'login_event.dart';
 
@@ -22,13 +23,21 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     LoginEmailChanged event,
     Emitter<LoginState> emit,
   ) {
-    final email = Username.dirty(event.email);
+    final email = Email.dirty(event.email);
 
     emit(
       state.copyWith(
         email: email,
         isValid: Formz.validate([state.password, email]),
       ),
+    );
+
+    developer.log(
+      '''
+      My param:${email}\n
+      Email: ${state.email}\n
+      Password:${state.password}''',
+      name: 'LOG email change',
     );
   }
 
@@ -42,6 +51,13 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         password: password,
         isValid: Formz.validate([password, state.email]),
       ),
+    );
+    developer.log(
+      '''
+      My param:${password}\n
+      Email: ${state.email}\n
+      Password:${state.password}''',
+      name: 'LOG email change',
     );
   }
 
