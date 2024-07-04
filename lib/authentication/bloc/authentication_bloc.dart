@@ -66,7 +66,7 @@ class AuthenticationBloc
       final user = _authenticationRepository.user;
       return user.first;
     } catch (_) {
-      throw const LogInWithGoogleFailure("user-not-found");
+      throw const LogInWithEmailAndPasswordFailure("user-not-found");
     }
   }
 }

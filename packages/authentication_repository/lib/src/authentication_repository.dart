@@ -38,6 +38,7 @@ class LogInWithEmailAndPasswordFailure implements Exception {
   final String message;
 }
 
+/*
 class LogInWithGoogleFailure implements Exception {
   const LogInWithGoogleFailure([
     this.message = 'O eroare necunoscuta a avut loc!',
@@ -84,7 +85,7 @@ class LogInWithGoogleFailure implements Exception {
 
   final String message;
 }
-
+*/
 class LogOutFailure implements Exception {}
 
 class AuthenticationRepository {
@@ -96,6 +97,7 @@ class AuthenticationRepository {
         _googleSignIn = googleSignIn ?? GoogleSignIn.standard();
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
+  //might be removed
   final GoogleSignIn _googleSignIn;
 
   bool isWeb = kIsWeb;
@@ -112,7 +114,7 @@ class AuthenticationRepository {
       return user;
     });
   }
-
+  /*
   Future<void> logInWithGoogle() async {
     try {
       late final firebase_auth.AuthCredential credential;
@@ -137,7 +139,7 @@ class AuthenticationRepository {
     } catch (_) {
       throw const LogInWithGoogleFailure();
     }
-  }
+  }*/
 
   Future<void> logInWithEmailAndPassword({
     required String email,
@@ -162,7 +164,7 @@ class AuthenticationRepository {
     try {
       await Future.wait([
         _firebaseAuth.signOut(),
-        _googleSignIn.signOut(),
+        //_googleSignIn.signOut(),
       ]);
       await Future(
         () => _controller.add(AuthenticationStatus.unauthenticated),
