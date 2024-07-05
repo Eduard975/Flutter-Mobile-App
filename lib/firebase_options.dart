@@ -4,9 +4,9 @@ import 'package:firebase_core/firebase_core.dart' show FirebaseOptions;
 import 'package:flutter/foundation.dart'
     show defaultTargetPlatform, TargetPlatform;
 
-part 'apis.dart';
+part 'private_data.dart';
 
-const APIs myData = const APIs();
+const PrivateData myData = const PrivateData();
 
 /// Default [FirebaseOptions] for use with your Firebase apps.
 ///

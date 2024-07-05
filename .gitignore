@@ -30,7 +30,8 @@ migrate_working_dir/
 .pub-cache/
 .pub/
 /build/
-apis.dart
+private_data.dart
+google-services.json
 # Symbolication related
 app.*.symbols
 

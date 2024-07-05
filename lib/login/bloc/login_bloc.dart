@@ -14,7 +14,8 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
         super(const LoginState()) {
     on<LoginEmailChanged>(_onEmailChanged);
     on<LoginPasswordChanged>(_onPasswordChanged);
-    on<LoginSubmitted>(_onSubmitted);
+    on<GoogleLoginSubmitted>(_onGoogleLogIn);
+    on<LoginSubmitted>(_onSimpleLogIn);
   }
 
   final AuthenticationRepository _authenticationRepository;
@@ -61,21 +62,47 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
   }
 
-  Future<void> _onSubmitted(
+  Future<void> _onSimpleLogIn(
     LoginSubmitted event,
     Emitter<LoginState> emit,
   ) async {
-    if (state.isValid) {
-      emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
-      try {
-        await _authenticationRepository.logInWithEmailAndPassword(
-          email: state.email.value,
-          password: state.password.value,
-        );
-        emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
-      }
+    if (!state.isValid) return;
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    try {
+      await _authenticationRepository.logInWithEmailAndPassword(
+        email: state.email.value,
+        password: state.password.value,
+      );
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
+    } on LogInWithEmailAndPasswordFailure catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: e.message,
+          status: FormzSubmissionStatus.failure,
+        ),
+      );
+    } catch (_) {
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
+    }
+  }
+
+  Future<void> _onGoogleLogIn(
+    GoogleLoginSubmitted event,
+    Emitter<LoginState> emit,
+  ) async {
+    emit(state.copyWith(status: FormzSubmissionStatus.inProgress));
+    try {
+      await _authenticationRepository.logInWithGoogle();
+      emit(state.copyWith(status: FormzSubmissionStatus.success));
+    } on LogInWithGoogleFailure catch (e) {
+      emit(
+        state.copyWith(
+          errorMessage: e.message,
+          status: FormzSubmissionStatus.failure,
+        ),
+      );
+    } catch (_) {
+      emit(state.copyWith(status: FormzSubmissionStatus.failure));
     }
   }
 }

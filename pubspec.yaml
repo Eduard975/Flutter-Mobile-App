@@ -49,6 +49,7 @@ dependencies:
   registration_repository:
     path: packages/registration_repository
   firebase_core: ^2.32.0
+  font_awesome_flutter: ^10.7.0
   
 dev_dependencies:
   flutter_test:

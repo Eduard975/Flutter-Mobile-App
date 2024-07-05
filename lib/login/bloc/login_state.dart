@@ -11,6 +11,7 @@ class LoginState with _$LoginState {
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus status,
     @Default(Email.pure()) Email email,
     @Default(Password.pure()) Password password,
+    @Default('') String errorMessage,
     @Default(false) bool isValid,
   }) = _LoginState;
 }
