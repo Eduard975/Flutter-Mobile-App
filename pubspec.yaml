@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=3.4.3 <4.0.0'
+  sdk: ">=3.0.0 <4.0.0"
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -30,17 +30,19 @@ environment:
 dependencies:
   flutter:
     sdk: flutter
-  device_preview: 1.2.0
+  device_preview: ^1.2.0
   flutter_bloc: ^8.1.6
   bloc: ^8.1.4
   freezed_annotation: ^2.4.1
   json_annotation: ^4.9.0
-  formz: ^0.6.0
+  formz: ^0.7.0
   equatable: ^2.0.0
 
   # The following adds the Cupertino Icons font to your application.
   # Use with the CupertinoIcons class for iOS style icons.
   cupertino_icons: ^1.0.6
+  font_awesome_flutter: ^10.7.0
+  firebase_core: ^3.1.1
 
   authentication_repository:
     path: packages/authentication_repository
@@ -48,8 +50,9 @@ dependencies:
     path: packages/user_repository
   registration_repository:
     path: packages/registration_repository
-  firebase_core: ^2.32.0
-  font_awesome_flutter: ^10.7.0
+  post_repository:
+    path: packages/post_repository
+  firebase_auth: ^5.1.1
   
 dev_dependencies:
   flutter_test:
@@ -59,15 +62,14 @@ dev_dependencies:
   build_runner: ^2.4.11
   freezed: ^2.5.2
   json_serializable: ^6.8.0
-  firebase_auth: ^4.4.0
-  cloud_firestore: ^4.15.5
+  cloud_firestore: ^5.0.2
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
   # activated in the `analysis_options.yaml` file located at the root of your
   # package. See that file for information about deactivating specific lint
   # rules and activating additional ones.
-  flutter_lints: ^3.0.0
+  flutter_lints: ^4.0.0
 
 
 # For information on the generic Dart part of this file, see the

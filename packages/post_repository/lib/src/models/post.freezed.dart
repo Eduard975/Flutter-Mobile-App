@@ -24,6 +24,7 @@ mixin _$Post {
   String get postText => throw _privateConstructorUsedError;
   String get postImage => throw _privateConstructorUsedError;
   String get posterId => throw _privateConstructorUsedError;
+  String get errMsg => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -36,7 +37,11 @@ abstract class $PostCopyWith<$Res> {
       _$PostCopyWithImpl<$Res, Post>;
   @useResult
   $Res call(
-      {String postId, String postText, String postImage, String posterId});
+      {String postId,
+      String postText,
+      String postImage,
+      String posterId,
+      String errMsg});
 }
 
 /// @nodoc
@@ -56,6 +61,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? postText = null,
     Object? postImage = null,
     Object? posterId = null,
+    Object? errMsg = null,
   }) {
     return _then(_value.copyWith(
       postId: null == postId
@@ -74,6 +80,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.posterId
           : posterId // ignore: cast_nullable_to_non_nullable
               as String,
+      errMsg: null == errMsg
+          ? _value.errMsg
+          : errMsg // ignore: cast_nullable_to_non_nullable
+              as String,
     ) as $Val);
   }
 }
@@ -86,7 +96,11 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
   @override
   @useResult
   $Res call(
-      {String postId, String postText, String postImage, String posterId});
+      {String postId,
+      String postText,
+      String postImage,
+      String posterId,
+      String errMsg});
 }
 
 /// @nodoc
@@ -103,6 +117,7 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? postText = null,
     Object? postImage = null,
     Object? posterId = null,
+    Object? errMsg = null,
   }) {
     return _then(_$PostImpl(
       postId: null == postId
@@ -121,6 +136,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.posterId
           : posterId // ignore: cast_nullable_to_non_nullable
               as String,
+      errMsg: null == errMsg
+          ? _value.errMsg
+          : errMsg // ignore: cast_nullable_to_non_nullable
+              as String,
     ));
   }
 }
@@ -132,7 +151,8 @@ class _$PostImpl extends _Post {
       {required this.postId,
       this.postText = '',
       this.postImage = '',
-      required this.posterId})
+      required this.posterId,
+      this.errMsg = ''})
       : super._();
 
   factory _$PostImpl.fromJson(Map<String, dynamic> json) =>
@@ -148,10 +168,13 @@ class _$PostImpl extends _Post {
   final String postImage;
   @override
   final String posterId;
+  @override
+  @JsonKey()
+  final String errMsg;
 
   @override
   String toString() {
-    return 'Post(postId: $postId, postText: $postText, postImage: $postImage, posterId: $posterId)';
+    return 'Post(postId: $postId, postText: $postText, postImage: $postImage, posterId: $posterId, errMsg: $errMsg)';
   }
 
   @override
@@ -165,13 +188,14 @@ class _$PostImpl extends _Post {
             (identical(other.postImage, postImage) ||
                 other.postImage == postImage) &&
             (identical(other.posterId, posterId) ||
-                other.posterId == posterId));
+                other.posterId == posterId) &&
+            (identical(other.errMsg, errMsg) || other.errMsg == errMsg));
   }
 
   @JsonKey(ignore: true)
   @override
   int get hashCode =>
-      Object.hash(runtimeType, postId, postText, postImage, posterId);
+      Object.hash(runtimeType, postId, postText, postImage, posterId, errMsg);
 
   @JsonKey(ignore: true)
   @override
@@ -192,7 +216,8 @@ abstract class _Post extends Post {
       {required final String postId,
       final String postText,
       final String postImage,
-      required final String posterId}) = _$PostImpl;
+      required final String posterId,
+      final String errMsg}) = _$PostImpl;
   const _Post._() : super._();
 
   factory _Post.fromJson(Map<String, dynamic> json) = _$PostImpl.fromJson;
@@ -205,6 +230,8 @@ abstract class _Post extends Post {
   String get postImage;
   @override
   String get posterId;
+  @override
+  String get errMsg;
   @override
   @JsonKey(ignore: true)
   _$$PostImplCopyWith<_$PostImpl> get copyWith =>
