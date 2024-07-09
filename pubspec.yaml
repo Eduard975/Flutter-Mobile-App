@@ -53,6 +53,7 @@ dependencies:
   post_repository:
     path: packages/post_repository
   firebase_auth: ^5.1.1
+  image_picker: ^1.1.2
   
 dev_dependencies:
   flutter_test:

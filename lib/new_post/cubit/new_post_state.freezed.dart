@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 mixin _$NewPostState {
   FormzSubmissionStatus get status => throw _privateConstructorUsedError;
   PostText get postText => throw _privateConstructorUsedError;
-  PostImage get postImg => throw _privateConstructorUsedError;
+  PostImg get postImg => throw _privateConstructorUsedError;
   String get errorMessage => throw _privateConstructorUsedError;
   bool get isValid => throw _privateConstructorUsedError;
 
@@ -36,7 +36,7 @@ abstract class $NewPostStateCopyWith<$Res> {
   $Res call(
       {FormzSubmissionStatus status,
       PostText postText,
-      PostImage postImg,
+      PostImg postImg,
       String errorMessage,
       bool isValid});
 }
@@ -72,7 +72,7 @@ class _$NewPostStateCopyWithImpl<$Res, $Val extends NewPostState>
       postImg: null == postImg
           ? _value.postImg
           : postImg // ignore: cast_nullable_to_non_nullable
-              as PostImage,
+              as PostImg,
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -96,7 +96,7 @@ abstract class _$$NewPostStateImplCopyWith<$Res>
   $Res call(
       {FormzSubmissionStatus status,
       PostText postText,
-      PostImage postImg,
+      PostImg postImg,
       String errorMessage,
       bool isValid});
 }
@@ -130,7 +130,7 @@ class __$$NewPostStateImplCopyWithImpl<$Res>
       postImg: null == postImg
           ? _value.postImg
           : postImg // ignore: cast_nullable_to_non_nullable
-              as PostImage,
+              as PostImg,
       errorMessage: null == errorMessage
           ? _value.errorMessage
           : errorMessage // ignore: cast_nullable_to_non_nullable
@@ -149,7 +149,7 @@ class _$NewPostStateImpl implements _NewPostState {
   const _$NewPostStateImpl(
       {this.status = FormzSubmissionStatus.initial,
       this.postText = const PostText.pure(),
-      this.postImg = const PostImage.pure(),
+      this.postImg = const PostImg.pure(),
       this.errorMessage = '',
       this.isValid = false});
 
@@ -161,7 +161,7 @@ class _$NewPostStateImpl implements _NewPostState {
   final PostText postText;
   @override
   @JsonKey()
-  final PostImage postImg;
+  final PostImg postImg;
   @override
   @JsonKey()
   final String errorMessage;
@@ -203,7 +203,7 @@ abstract class _NewPostState implements NewPostState {
   const factory _NewPostState(
       {final FormzSubmissionStatus status,
       final PostText postText,
-      final PostImage postImg,
+      final PostImg postImg,
       final String errorMessage,
       final bool isValid}) = _$NewPostStateImpl;
 
@@ -212,7 +212,7 @@ abstract class _NewPostState implements NewPostState {
   @override
   PostText get postText;
   @override
-  PostImage get postImg;
+  PostImg get postImg;
   @override
   String get errorMessage;
   @override

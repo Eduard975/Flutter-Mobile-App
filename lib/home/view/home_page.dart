@@ -1,4 +1,5 @@
-import 'package:first_app/authentication/bloc/authentication_bloc.dart';
+import 'package:first_app/authentication/authentication.dart';
+import 'package:first_app/new_post/view/new_post_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -16,39 +17,49 @@ class HomePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final userId = context.select(
+      (AuthenticationBloc bloc) => bloc.state.user.name,
+    );
     return Scaffold(
+      appBar: AppBar(
+        title: Container(
+          padding: EdgeInsets.symmetric(
+            vertical: deviceHeight(context) * 0.05,
+            horizontal: deviceWidth(context) * 0.05,
+          ),
+          child: Row(
+            children: [
+              ElevatedButton(
+                onPressed: () {},
+                style: ElevatedButton.styleFrom(
+                  alignment: Alignment.centerLeft,
+                ),
+                child: Text(userId),
+              ),
+              ElevatedButton(
+                style: ElevatedButton.styleFrom(
+                  alignment: Alignment.centerRight,
+                ),
+                onPressed: () {
+                  context
+                      .read<AuthenticationBloc>()
+                      .add(AuthenticationLogoutRequested());
+                },
+                child: const Text('Logout'),
+              ),
+            ],
+          ),
+        ),
+      ),
       body: Container(
-        padding: EdgeInsets.only(
-          top: deviceHeight(context) * 0.05,
-          right: deviceWidth(context) * 0.05,
+        padding: EdgeInsets.symmetric(
+          vertical: deviceHeight(context) * 0.05,
+          horizontal: deviceWidth(context) * 0.05,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: <Widget>[
-            Align(
-              alignment: Alignment.topRight,
-              child: Row(mainAxisSize: MainAxisSize.min, children: [
-                Builder(
-                  builder: (context) {
-                    final userId = context.select(
-                      (AuthenticationBloc bloc) => bloc.state.user.name,
-                    );
-                    return Text('Welcome $userId!');
-                  },
-                ),
-                const Padding(
-                  padding: EdgeInsets.all(12),
-                ),
-                ElevatedButton(
-                  child: const Text('Logout'),
-                  onPressed: () {
-                    context
-                        .read<AuthenticationBloc>()
-                        .add(AuthenticationLogoutRequested());
-                  },
-                ),
-              ]),
-            )
+            NewPostForm(userId: userId),
           ],
         ),
       ),

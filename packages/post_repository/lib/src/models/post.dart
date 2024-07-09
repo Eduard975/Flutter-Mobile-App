@@ -9,16 +9,16 @@ class Post with _$Post {
     required String postId,
     @Default('') String postText,
     @Default('') String postImage,
+    @Default('') String postDate,
     required String posterId,
-    @Default('') String errMsg,
   }) = _Post;
   const Post._();
   static const empty = Post(
     postId: '',
     postText: '',
     postImage: '',
+    postDate: '',
     posterId: '',
-    errMsg: '',
   );
 
   bool get isEmpty => this == empty;

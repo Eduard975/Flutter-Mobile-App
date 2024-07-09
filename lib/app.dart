@@ -8,6 +8,7 @@ import 'package:first_app/authentication/authentication.dart';
 import 'package:first_app/home/home.dart';
 import 'package:first_app/login/login.dart';
 import 'package:first_app/splash/splash.dart';
+import 'package:post_repository/post_repository.dart';
 import 'package:registration_repository/registration_repository.dart';
 
 class App extends StatefulWidget {
@@ -20,12 +21,14 @@ class App extends StatefulWidget {
 class _AppState extends State<App> {
   late final AuthenticationRepository _authenticationRepository;
   late final RegistrationRepository _registrationRepository;
+  late final PostRepository _postRepository;
 
   @override
   void initState() {
     super.initState();
     _authenticationRepository = AuthenticationRepository();
     _registrationRepository = RegistrationRepository();
+    _postRepository = PostRepository();
   }
 
   @override
@@ -40,6 +43,7 @@ class _AppState extends State<App> {
       providers: [
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _registrationRepository),
+        RepositoryProvider.value(value: _postRepository),
       ],
       child: BlocProvider(
         create: (_) => AuthenticationBloc(
