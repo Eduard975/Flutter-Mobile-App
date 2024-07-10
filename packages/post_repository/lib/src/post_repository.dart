@@ -12,6 +12,7 @@ class PostRepository {
 
   Future<void> newPost({
     required Post post,
+    required List<String> images,
   }) async {
     try {
       int imgCount = 0;

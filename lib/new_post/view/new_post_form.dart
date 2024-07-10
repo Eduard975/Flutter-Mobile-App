@@ -133,10 +133,11 @@ class _DisplayImages extends StatelessWidget {
       buildWhen: (previous, current) => previous.postImg != current.postImg,
       builder: (context, state) {
         if (state.postImg.value.isNotEmpty) {
-          return Image.file(File(state.postImg.value));
-        } else {
-          return const Text("Nici o imagine selectata");
+          for (var image in state.postImg.value) {
+            return Image.file(File(image));
+          }
         }
+        return const Text("Nici o imagine selectata");
       },
     );
   }
@@ -164,13 +165,15 @@ class _PostButton extends StatelessWidget {
                 ),
                 onPressed: state.isValid
                     ? () {
-                        context.read<NewPostCubit>().submitNewPost(Post(
+                        context.read<NewPostCubit>().submitNewPost(
+                            Post(
                               postId: '',
                               postText: state.postText.value,
-                              postImage: state.postImg.value,
+                              postImage: state.postImg.value.length.toString(),
                               postDate: DateTime.now().toUtc().toString(),
                               posterId: userId,
-                            ));
+                            ),
+                            state.postImg.value);
                       }
                     : null,
                 child: const Text('Posteaza'),
