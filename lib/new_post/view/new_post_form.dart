@@ -10,68 +10,64 @@ import 'package:post_repository/post_repository.dart';
 
 class NewPostForm extends StatelessWidget {
   final String userId;
-  final fieldTextController = TextEditingController();
 
-  NewPostForm({
+  const NewPostForm({
     required this.userId,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => NewPostCubit(context.read<PostRepository>()),
-      child: BlocListener<NewPostCubit, NewPostState>(
-        listener: (context, state) {
-          if (state.status == FormzSubmissionStatus.failure) {
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Failed to post'),
-                ),
-              );
-          } else if (state.status == FormzSubmissionStatus.success) {
-            fieldTextController.clear();
-            context.read<NewPostCubit>().resetState();
-            ScaffoldMessenger.of(context)
-              ..hideCurrentSnackBar()
-              ..showSnackBar(
-                const SnackBar(
-                  content: Text('Ai postat cu succes, serifule!'),
-                ),
-              );
-          }
-        },
-        child: Expanded(
-          flex: 2,
-          child: Container(
-            padding: const EdgeInsets.all(16.0),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(8.0),
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                _TextInput(fieldTextController: fieldTextController),
-                const Expanded(
-                  flex: 1,
-                  child: _DisplayImages(),
-                ),
-                const Padding(padding: EdgeInsets.all(8)),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    _PostButton(
-                      userId: userId,
-                      fieldTextController: fieldTextController,
-                    ),
-                    const _ImageInput(),
-                  ],
-                ),
-              ],
-            ),
+    return BlocListener<NewPostCubit, NewPostState>(
+      listener: (context, state) {
+        if (state.status == FormzSubmissionStatus.failure) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Text('Nu s-a postat, sefule'),
+              ),
+            );
+        } else if (state.status == FormzSubmissionStatus.success) {
+          context.read<NewPostCubit>().resetState();
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(
+                content: Text('Ai postat cu succes, serifule!'),
+              ),
+            );
+          Navigator.pop(context);
+        }
+      },
+      child: Expanded(
+        flex: 2,
+        child: Container(
+          padding: const EdgeInsets.all(16.0),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(8.0),
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              _TextInput(),
+              const Expanded(
+                flex: 1,
+                child: _DisplayImages(),
+              ),
+              const Padding(padding: EdgeInsets.all(8)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const _ImageInput(ImageSource.camera),
+                  _PostButton(
+                    userId: userId,
+                  ),
+                  const _ImageInput(ImageSource.gallery),
+                ],
+              ),
+            ],
           ),
         ),
       ),
@@ -80,21 +76,15 @@ class NewPostForm extends StatelessWidget {
 }
 
 class _TextInput extends StatelessWidget {
-  final TextEditingController fieldTextController;
-  const _TextInput({
-    required this.fieldTextController,
-  });
-
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<NewPostCubit, NewPostState>(
       buildWhen: (previous, current) => previous.postText != current.postText,
       builder: (context, state) {
-        return TextField(
+        return TextFormField(
           key: const Key('newPostForm_textInput_textField'),
           onChanged: context.read<NewPostCubit>().textChanged,
           keyboardType: TextInputType.text,
-          controller: fieldTextController,
           decoration: InputDecoration(
             labelText: 'Scrie-ti aici gandurile, rege!',
             helperText: '',
@@ -108,9 +98,12 @@ class _TextInput extends StatelessWidget {
 }
 
 class _ImageInput extends StatelessWidget {
-  const _ImageInput();
+  final ImageSource mySource;
+  const _ImageInput(
+    this.mySource,
+  );
 
-  Future<XFile?> pickImage() async {
+  Future<XFile?> pickImage(ImageSource mySource) async {
     return await ImagePicker().pickImage(source: ImageSource.camera);
   }
 
@@ -121,7 +114,7 @@ class _ImageInput extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
           onPressed: () async {
-            XFile? file = await pickImage();
+            XFile? file = await pickImage(mySource);
             context.read<NewPostCubit>().imageUploaded(file);
           },
           icon: const Icon(Icons.camera_alt),
@@ -151,10 +144,8 @@ class _DisplayImages extends StatelessWidget {
 
 class _PostButton extends StatelessWidget {
   final String userId;
-  final TextEditingController fieldTextController;
   const _PostButton({
     required this.userId,
-    required this.fieldTextController,
   });
 
   @override

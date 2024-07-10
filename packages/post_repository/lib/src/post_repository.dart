@@ -1,7 +1,9 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:flutter/foundation.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:post_repository/post_repository.dart';
+import 'dart:developer' as developer;
 
 class PostRepository {
   PostRepository();
@@ -12,15 +14,22 @@ class PostRepository {
     required Post post,
   }) async {
     try {
+      int imgCount = 0;
       DocumentReference docRef;
-      // if (post.postImage != '') {
-      //   docRef = _firebaseFirestore.collection('post-images').doc();
-      // }
       docRef = _firebaseFirestore.collection('posts').doc();
-      post = post.copyWith(postId: docRef.id);
+      if (post.postImage.isNotEmpty) {
+        final storageRef = FirebaseStorage.instance.ref();
+        final imageRef = storageRef.child('${post.posterId}/${docRef.id}');
+        await imageRef.putFile(File(post.postImage));
+        imgCount++;
+      }
+      post = post.copyWith(
+        postId: docRef.id,
+        postImage: "${imgCount}",
+      );
       await docRef.set(post.toJson());
     } catch (e) {
-      debugPrint('$e');
+      developer.log('$e');
       throw '$e';
     }
   }

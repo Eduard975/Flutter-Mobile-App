@@ -12,6 +12,6 @@ class PostImg extends FormzInput<String, PostImgValidationError> {
 
   @override
   PostImgValidationError? validator(String? value) {
-    return (value == '') ? null : PostImgValidationError.invalid;
+    return (value != '') ? null : PostImgValidationError.invalid;
   }
 }

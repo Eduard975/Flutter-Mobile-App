@@ -1,10 +1,11 @@
 import 'package:first_app/authentication/authentication.dart';
-import 'package:first_app/new_post/view/new_post_form.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class HomePage extends StatelessWidget {
-  const HomePage({super.key});
+  const HomePage({
+    super.key,
+  });
 
   static Route<void> route() {
     return MaterialPageRoute<void>(builder: (_) => const HomePage());
@@ -36,6 +37,11 @@ class HomePage extends StatelessWidget {
                 ),
                 child: Text(userId),
               ),
+              IconButton(
+                key: const Key('newPageForm_continue_elevatedButton'),
+                onPressed: () => Navigator.pushNamed(context, '/new_post'),
+                icon: const Icon(Icons.add_box_outlined),
+              ),
               ElevatedButton(
                 style: ElevatedButton.styleFrom(
                   alignment: Alignment.centerRight,
@@ -58,9 +64,7 @@ class HomePage extends StatelessWidget {
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
-          children: <Widget>[
-            NewPostForm(userId: userId),
-          ],
+          children: <Widget>[],
         ),
       ),
     );
