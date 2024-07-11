@@ -162,12 +162,21 @@ class _DisplayImages extends StatelessWidget {
                 crossAxisCount: 3),
             itemCount: state.postImg.value.length,
             itemBuilder: (BuildContext context, int index) {
-              return GestureDetector(
-                onTap: () => {context.read<NewPostCubit>().removeImage(index)},
-                child: Image.file(
-                  File(state.postImg.value[index]),
-                ),
-              );
+              return Stack(
+                  alignment: Alignment.bottomCenter,
+                  children: <Widget>[
+                    Image.file(File(state.postImg.value[index])),
+                    Align(
+                      alignment: Alignment.center,
+                      child: IconButton(
+                        iconSize: 40,
+                        color: const Color.fromARGB(255, 241, 101, 122),
+                        onPressed: () =>
+                            context.read<NewPostCubit>().removeImage(index),
+                        icon: const Icon(Icons.remove_circle_outline),
+                      ),
+                    ),
+                  ]);
             },
           );
         }
