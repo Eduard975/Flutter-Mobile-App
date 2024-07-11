@@ -7,7 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post_repository/post_repository.dart';
-import 'dart:developer' as developer;
+// import 'dart:developer' as developer;
 
 class NewPostForm extends StatelessWidget {
   final String userId;

@@ -16,8 +16,11 @@ class PostRepository {
   }) async {
     try {
       int imgCount = 0;
-      DocumentReference docRef;
-      docRef = _firebaseFirestore.collection('posts').doc();
+      DocumentReference docRef = _firebaseFirestore
+          .collection(
+            'posts',
+          )
+          .doc();
       final storageRef = FirebaseStorage.instance.ref();
 
       for (var imagePath in images) {
@@ -34,6 +37,50 @@ class PostRepository {
         postImage: "${imgCount}",
       );
       await docRef.set(post.toJson());
+    } catch (e) {
+      developer.log('$e');
+      throw '$e';
+    }
+  }
+
+  Future<List<Post>> retrivePosts() async {
+    try {
+      List<Post> postsList = [];
+      await _firebaseFirestore
+          .collection(
+            'posts',
+          )
+          .get()
+          .then((querySnapshot) {
+        for (var docSnapshot in querySnapshot.docs) {
+          postsList.add(Post.fromJson(docSnapshot.data()));
+        }
+      });
+
+      developer.log(postsList.join('\n'));
+
+      return postsList;
+    } catch (e) {
+      developer.log('$e');
+      throw '$e';
+    }
+  }
+
+  Future<List<String>> retrivePostImagess({
+    required Post post,
+  }) async {
+    try {
+      int imgTotal = int.parse(post.postImage);
+      final storageRef = FirebaseStorage.instance.ref();
+      List<String> imgUrlList = [];
+      for (var i in Iterable.generate(imgTotal)) {
+        String imgIndx = (i < 10) ? ('0' + i.toString()) : i.toString();
+        final imageRef =
+            storageRef.child('${post.posterId}/${post.postId}/${imgIndx}');
+        imgUrlList.add(await imageRef.getDownloadURL());
+      }
+      developer.log(imgUrlList.join('\n'));
+      return imgUrlList;
     } catch (e) {
       developer.log('$e');
       throw '$e';
