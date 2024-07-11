@@ -24,7 +24,7 @@ class PostRepository {
         String imgIndx =
             (imgCount < 10) ? ('0' + imgCount.toString()) : imgCount.toString();
         final imageRef = storageRef.child(
-          '${post.posterId}/${imgIndx}_${docRef.id}',
+          '${post.posterId}/${docRef.id}/${imgIndx}',
         );
         await imageRef.putFile(File(imagePath));
         imgCount++;

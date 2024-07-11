@@ -162,7 +162,8 @@ class _DisplayImages extends StatelessWidget {
                 crossAxisCount: 3),
             itemCount: state.postImg.value.length,
             itemBuilder: (BuildContext context, int index) {
-              return Center(
+              return GestureDetector(
+                onTap: () => {context.read<NewPostCubit>().removeImage(index)},
                 child: Image.file(
                   File(state.postImg.value[index]),
                 ),

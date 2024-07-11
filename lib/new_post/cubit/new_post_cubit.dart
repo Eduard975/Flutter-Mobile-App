@@ -79,6 +79,17 @@ class NewPostCubit extends Cubit<NewPostState> {
     );
   }
 
+  removeImage(int index) {
+    List<String> imageList = List<String>.from(state.postImg.value);
+    imageList.removeAt(index);
+    emit(
+      state.copyWith(
+        postImg: PostImg.dirty(imageList),
+        isValid: Formz.validate([PostImg.dirty(imageList)]),
+      ),
+    );
+  }
+
   Future<void> submitNewPost(Post post, List<String> images) async {
     emit(state.copyWith(
       status: FormzSubmissionStatus.inProgress,
