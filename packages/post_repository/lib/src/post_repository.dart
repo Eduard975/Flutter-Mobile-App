@@ -18,10 +18,15 @@ class PostRepository {
       int imgCount = 0;
       DocumentReference docRef;
       docRef = _firebaseFirestore.collection('posts').doc();
-      if (post.postImage.isNotEmpty) {
-        final storageRef = FirebaseStorage.instance.ref();
-        final imageRef = storageRef.child('${post.posterId}/${docRef.id}');
-        await imageRef.putFile(File(post.postImage));
+      final storageRef = FirebaseStorage.instance.ref();
+
+      for (var imagePath in images) {
+        String imgIndx =
+            (imgCount < 10) ? ('0' + imgCount.toString()) : imgCount.toString();
+        final imageRef = storageRef.child(
+          '${post.posterId}/${imgIndx}_${docRef.id}',
+        );
+        await imageRef.putFile(File(imagePath));
         imgCount++;
       }
       post = post.copyWith(

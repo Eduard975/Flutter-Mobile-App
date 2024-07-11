@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:post_repository/post_repository.dart';
+import 'dart:developer' as developer;
 
 class NewPostForm extends StatelessWidget {
   final String userId;
@@ -103,8 +104,12 @@ class _ImageInput extends StatelessWidget {
     this.mySource,
   );
 
-  Future<XFile?> pickImage(ImageSource mySource) async {
+  Future<XFile?> pickImage() async {
     return await ImagePicker().pickImage(source: ImageSource.camera);
+  }
+
+  Future<List<XFile>> pickImages() async {
+    return await ImagePicker().pickMultiImage(limit: 10);
   }
 
   @override
@@ -114,10 +119,29 @@ class _ImageInput extends StatelessWidget {
       builder: (context, state) {
         return IconButton(
           onPressed: () async {
-            XFile? file = await pickImage(mySource);
-            context.read<NewPostCubit>().imageUploaded(file);
+            if (mySource == ImageSource.camera) {
+              XFile? file = await pickImage();
+              context.read<NewPostCubit>().imageUploaded(file);
+
+              // developer.log(
+              //   '''\nState:
+              //     Img:${file?.path}''',
+              //   name: "Image picked",
+              // );
+            } else if (mySource == ImageSource.gallery) {
+              List<XFile> file = await pickImages();
+              context.read<NewPostCubit>().imagesUploaded(file);
+
+              // developer.log(
+              //   '''\nState:
+              //     Img:${file}''',
+              //   name: "Images picked",
+              // );
+            }
           },
-          icon: const Icon(Icons.camera_alt),
+          icon: (mySource == ImageSource.camera)
+              ? const Icon(Icons.camera_alt)
+              : const Icon(Icons.add_a_photo_outlined),
         );
       },
     );
@@ -133,9 +157,18 @@ class _DisplayImages extends StatelessWidget {
       buildWhen: (previous, current) => previous.postImg != current.postImg,
       builder: (context, state) {
         if (state.postImg.value.isNotEmpty) {
-          for (var image in state.postImg.value) {
-            return Image.file(File(image));
-          }
+          return GridView.builder(
+            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 3),
+            itemCount: state.postImg.value.length,
+            itemBuilder: (BuildContext context, int index) {
+              return Center(
+                child: Image.file(
+                  File(state.postImg.value[index]),
+                ),
+              );
+            },
+          );
         }
         return const Text("Nici o imagine selectata");
       },
