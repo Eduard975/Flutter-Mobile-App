@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:post_repository/post_repository.dart';
 
 class ImageCarousel extends StatefulWidget {
   final Future<List<String>> futureUrls;
