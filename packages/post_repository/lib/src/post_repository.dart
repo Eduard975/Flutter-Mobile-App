@@ -66,7 +66,7 @@ class PostRepository {
     }
   }
 
-  Future<List<String>> retrivePostImagess({
+  Future<List<String>> retrivePostImages({
     required Post post,
   }) async {
     try {

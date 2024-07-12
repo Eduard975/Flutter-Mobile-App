@@ -1,4 +1,5 @@
 import 'package:first_app/authentication/authentication.dart';
+import 'package:first_app/post_feed/post_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:post_repository/post_repository.dart';
@@ -35,9 +36,9 @@ class HomePage extends StatelessWidget {
                 onPressed: () async {
                   List<Post> postList =
                       await context.read<PostRepository>().retrivePosts();
-                  context
-                      .read<PostRepository>()
-                      .retrivePostImagess(post: postList[0]);
+                  // context
+                  //     .read<PostRepository>()
+                  //     .retrivePostImagess(post: postList[0]);
                 },
                 style: ElevatedButton.styleFrom(
                   alignment: Alignment.centerLeft,
@@ -69,10 +70,7 @@ class HomePage extends StatelessWidget {
           vertical: deviceHeight(context) * 0.05,
           horizontal: deviceWidth(context) * 0.05,
         ),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: <Widget>[],
-        ),
+        child: const PostFeedWidget(),
       ),
     );
   }
