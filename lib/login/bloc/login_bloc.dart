@@ -35,7 +35,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
 
     developer.log(
       '''
-      My param:${email}\n
+      My param:$email\n
       Email: ${state.email}\n
       Password:${state.password}''',
       name: 'LOG email change',
@@ -55,7 +55,7 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
     );
     developer.log(
       '''
-      My param:${password}\n
+      My param:$password\n
       Email: ${state.email}\n
       Password:${state.password}''',
       name: 'LOG email change',

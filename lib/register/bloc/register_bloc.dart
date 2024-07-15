@@ -33,7 +33,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     developer.log(
       '''
-      My param:${email}\n
+      My param:$email\n
       Email: ${state.email}\n
       Username:${state.username}\n
       Password:${state.password}''',
@@ -54,7 +54,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     developer.log(
       '''
-      My param:${username}\n
+      My param:$username\n
       Email: ${state.email}\n
       Username:${state.username}\n
       Password:${state.password}''',
@@ -75,7 +75,7 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
     );
     developer.log(
       '''
-      My param:${password}\n
+      My param:$password\n
       Email: ${state.email}\n
       Username:${state.username}\n
       Password:${state.password}''',

@@ -38,7 +38,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error loading images: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return const Center(child: Text('No images available'));
+          return Container();
         } else {
           List<String> imageUrls = snapshot.data!;
           return _buildImageCarousel(imageUrls);
@@ -56,7 +56,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
           child: PageView.builder(
             itemCount: imageUrls.length,
             controller: PageController(viewportFraction: 0.8),
-            pageSnapping: false,
+            pageSnapping: true,
             onPageChanged: (page) {
               setState(() {
                 activePage = page;

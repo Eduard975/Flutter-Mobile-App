@@ -19,7 +19,7 @@ class NewPostCubit extends Cubit<NewPostState> {
           Text:${state.postText}
           Img:${state.postImg}'''
       '''\nState nou:
-          Text:${postText}
+          Text:$postText
           Validitate: ${Formz.validate([postText])}''',
       name: "Text Changed",
     );
@@ -37,11 +37,11 @@ class NewPostCubit extends Cubit<NewPostState> {
     imageList.add(path);
     developer.log(
       '''\nState vechi:
-          Path: ${path}
+          Path: $path
           Text:${state.postText}
           Img:${state.postImg}'''
       '''\nState nou:
-          Img:${imageList}
+          Img:$imageList
           Validitate: ${Formz.validate([PostImg.dirty(imageList)])}''',
       name: "Image Changed",
     );
@@ -63,11 +63,11 @@ class NewPostCubit extends Cubit<NewPostState> {
     imageList.addAll(paths);
     developer.log(
       '''\nState vechi:
-          Path: ${paths}
+          Path: $paths
           Text:${state.postText}
           Img:${state.postImg}'''
       '''\nState nou:
-          Img:${imageList}
+          Img:$imageList
           Validitate: ${Formz.validate([PostImg.dirty(imageList)])}''',
       name: "Image Changed",
     );

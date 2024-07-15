@@ -120,23 +120,22 @@ class _ImageInput extends StatelessWidget {
         return IconButton(
           onPressed: () async {
             if (mySource == ImageSource.camera) {
-              XFile? file = await pickImage();
-              context.read<NewPostCubit>().imageUploaded(file);
-
+              pickImage().then((file) {
+                if (file != null) {
+                  context.read<NewPostCubit>().imageUploaded(file);
+                }
+              });
               // developer.log(
               //   '''\nState:
               //     Img:${file?.path}''',
               //   name: "Image picked",
               // );
             } else if (mySource == ImageSource.gallery) {
-              List<XFile> file = await pickImages();
-              context.read<NewPostCubit>().imagesUploaded(file);
-
-              // developer.log(
-              //   '''\nState:
-              //     Img:${file}''',
-              //   name: "Images picked",
-              // );
+              pickImages().then((file) {
+                if (file.isNotEmpty) {
+                  context.read<NewPostCubit>().imagesUploaded(file);
+                }
+              });
             }
           },
           icon: (mySource == ImageSource.camera)

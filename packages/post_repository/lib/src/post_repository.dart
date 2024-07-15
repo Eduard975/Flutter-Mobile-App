@@ -43,27 +43,16 @@ class PostRepository {
     }
   }
 
-  Future<List<Post>> retrivePosts() async {
-    try {
-      List<Post> postsList = [];
-      await _firebaseFirestore
-          .collection(
-            'posts',
-          )
-          .get()
-          .then((querySnapshot) {
-        for (var docSnapshot in querySnapshot.docs) {
-          postsList.add(Post.fromJson(docSnapshot.data()));
-        }
-      });
-
-      developer.log(postsList.join('\n'));
-
-      return postsList;
-    } catch (e) {
-      developer.log('$e');
-      throw '$e';
-    }
+  Stream<List<Post>> retrivePostsStream() {
+    return _firebaseFirestore
+        .collection('posts')
+        .orderBy("postDate", descending: true)
+        .snapshots()
+        .map((querySnapshot) {
+      return querySnapshot.docs.map((docSnapshot) {
+        return Post.fromJson(docSnapshot.data());
+      }).toList();
+    });
   }
 
   Future<List<String>> retrivePostImages({
