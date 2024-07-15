@@ -37,52 +37,15 @@ class PostFeedWidget extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Row(
-                          children: [
-                            Text(
-                              post.posterId,
-                              style: const TextStyle(
-                                fontSize: 18.0,
-                                fontWeight: FontWeight.bold,
-                                color: Colors.black87,
-                              ),
-                            ),
-                            const Text(
-                              ' a postat:',
-                              style: TextStyle(
-                                fontSize: 16.0,
-                                fontWeight: FontWeight.normal,
-                                color: Colors.black87,
-                              ),
-                            ),
-                          ],
-                        ),
-                        Text(
-                          post.postText,
-                          style: const TextStyle(
-                            fontSize: 14.0,
-                            fontWeight: FontWeight.normal,
-                            fontStyle: FontStyle.italic,
-                            color: Colors.black87,
-                          ),
-                        ),
+                        displayPosterId(post.posterId),
+                        displayPostText(post.postText),
                         ImageCarousel(
                           futureUrls: context
                               .read<PostRepository>()
                               .retrivePostImages(post: post),
                         ),
                         const SizedBox(height: 10),
-                        Align(
-                          alignment: Alignment.centerRight,
-                          child: Text(
-                            parseDate(post.postDate),
-                            style: const TextStyle(
-                              fontSize: 10.0,
-                              fontWeight: FontWeight.normal,
-                              color: Colors.black87,
-                            ),
-                          ),
-                        ),
+                        displayDate(post.postDate),
                       ],
                     ),
                   );
@@ -106,7 +69,56 @@ class PostFeedWidget extends StatelessWidget {
   }
 
   String parseDate(String date) {
-    DateTime myDate = DateTime.parse(date);
+    DateTime myDate = DateTime.parse(date).toLocal();
     return formatDate(myDate, [HH, ':', nn, ' ', d, '-', MM, '-', yyyy]);
+  }
+
+  Align displayDate(postDate) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Text(
+        parseDate(postDate),
+        style: const TextStyle(
+          fontSize: 10.0,
+          fontWeight: FontWeight.normal,
+          color: Colors.black87,
+        ),
+      ),
+    );
+  }
+
+  Text displayPostText(postText) {
+    return Text(
+      postText,
+      style: const TextStyle(
+        fontSize: 14.0,
+        fontWeight: FontWeight.normal,
+        fontStyle: FontStyle.italic,
+        color: Colors.black87,
+      ),
+    );
+  }
+
+  Row displayPosterId(posterId) {
+    return Row(
+      children: [
+        Text(
+          posterId,
+          style: const TextStyle(
+            fontSize: 18.0,
+            fontWeight: FontWeight.bold,
+            color: Colors.black87,
+          ),
+        ),
+        const Text(
+          ' a postat:',
+          style: TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.normal,
+            color: Colors.black87,
+          ),
+        ),
+      ],
+    );
   }
 }
