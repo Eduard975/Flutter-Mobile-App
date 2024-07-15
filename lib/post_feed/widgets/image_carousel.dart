@@ -1,4 +1,6 @@
+import 'package:first_app/full_image/full_image_page.dart';
 import 'package:flutter/material.dart';
+// import 'dart:developer' as developer;
 
 class ImageCarousel extends StatefulWidget {
   final Future<List<String>> futureUrls;
@@ -65,10 +67,20 @@ class _ImageCarouselState extends State<ImageCarousel> {
             itemBuilder: (context, index) {
               return Container(
                 margin: const EdgeInsets.all(10),
-                child: Image.network(
-                  imageUrls[index],
-                  fit: BoxFit.cover,
-                ),
+                child: InkWell(
+                    onTap: () => {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  FullImagePage(imgUrl: imageUrls[index]),
+                            ),
+                          ),
+                        },
+                    child: Image.network(
+                      imageUrls[index],
+                      fit: BoxFit.cover,
+                    )),
               );
             },
           ),
