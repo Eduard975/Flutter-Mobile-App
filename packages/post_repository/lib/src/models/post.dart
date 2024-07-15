@@ -10,6 +10,7 @@ class Post with _$Post {
     @Default('') String postText,
     @Default('') String postImage,
     @Default('') String postDate,
+    @Default(null) String? replyTo,
     required String posterId,
   }) = _Post;
   const Post._();
@@ -18,6 +19,7 @@ class Post with _$Post {
     postText: '',
     postImage: '',
     postDate: '',
+    replyTo: '',
     posterId: '',
   );
 

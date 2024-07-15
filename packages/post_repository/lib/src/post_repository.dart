@@ -43,10 +43,11 @@ class PostRepository {
     }
   }
 
-  Stream<List<Post>> retrivePostsStream() {
+  Stream<List<Post>> retriveStream({required bool isReply}) {
     return _firebaseFirestore
         .collection('posts')
-        .orderBy("postDate", descending: true)
+        .where('replyTo', isNull: !isReply)
+        .orderBy('postDate', descending: true)
         .snapshots()
         .map((querySnapshot) {
       return querySnapshot.docs.map((docSnapshot) {

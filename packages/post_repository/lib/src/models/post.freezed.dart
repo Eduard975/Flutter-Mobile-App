@@ -24,6 +24,7 @@ mixin _$Post {
   String get postText => throw _privateConstructorUsedError;
   String get postImage => throw _privateConstructorUsedError;
   String get postDate => throw _privateConstructorUsedError;
+  String? get replyTo => throw _privateConstructorUsedError;
   String get posterId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -41,6 +42,7 @@ abstract class $PostCopyWith<$Res> {
       String postText,
       String postImage,
       String postDate,
+      String? replyTo,
       String posterId});
 }
 
@@ -61,6 +63,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? postText = null,
     Object? postImage = null,
     Object? postDate = null,
+    Object? replyTo = freezed,
     Object? posterId = null,
   }) {
     return _then(_value.copyWith(
@@ -80,6 +83,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.postDate
           : postDate // ignore: cast_nullable_to_non_nullable
               as String,
+      replyTo: freezed == replyTo
+          ? _value.replyTo
+          : replyTo // ignore: cast_nullable_to_non_nullable
+              as String?,
       posterId: null == posterId
           ? _value.posterId
           : posterId // ignore: cast_nullable_to_non_nullable
@@ -100,6 +107,7 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       String postText,
       String postImage,
       String postDate,
+      String? replyTo,
       String posterId});
 }
 
@@ -117,6 +125,7 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? postText = null,
     Object? postImage = null,
     Object? postDate = null,
+    Object? replyTo = freezed,
     Object? posterId = null,
   }) {
     return _then(_$PostImpl(
@@ -136,6 +145,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.postDate
           : postDate // ignore: cast_nullable_to_non_nullable
               as String,
+      replyTo: freezed == replyTo
+          ? _value.replyTo
+          : replyTo // ignore: cast_nullable_to_non_nullable
+              as String?,
       posterId: null == posterId
           ? _value.posterId
           : posterId // ignore: cast_nullable_to_non_nullable
@@ -152,6 +165,7 @@ class _$PostImpl extends _Post {
       this.postText = '',
       this.postImage = '',
       this.postDate = '',
+      this.replyTo = null,
       required this.posterId})
       : super._();
 
@@ -170,11 +184,14 @@ class _$PostImpl extends _Post {
   @JsonKey()
   final String postDate;
   @override
+  @JsonKey()
+  final String? replyTo;
+  @override
   final String posterId;
 
   @override
   String toString() {
-    return 'Post(postId: $postId, postText: $postText, postImage: $postImage, postDate: $postDate, posterId: $posterId)';
+    return 'Post(postId: $postId, postText: $postText, postImage: $postImage, postDate: $postDate, replyTo: $replyTo, posterId: $posterId)';
   }
 
   @override
@@ -189,14 +206,15 @@ class _$PostImpl extends _Post {
                 other.postImage == postImage) &&
             (identical(other.postDate, postDate) ||
                 other.postDate == postDate) &&
+            (identical(other.replyTo, replyTo) || other.replyTo == replyTo) &&
             (identical(other.posterId, posterId) ||
                 other.posterId == posterId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, postId, postText, postImage, postDate, posterId);
+  int get hashCode => Object.hash(
+      runtimeType, postId, postText, postImage, postDate, replyTo, posterId);
 
   @JsonKey(ignore: true)
   @override
@@ -218,6 +236,7 @@ abstract class _Post extends Post {
       final String postText,
       final String postImage,
       final String postDate,
+      final String? replyTo,
       required final String posterId}) = _$PostImpl;
   const _Post._() : super._();
 
@@ -231,6 +250,8 @@ abstract class _Post extends Post {
   String get postImage;
   @override
   String get postDate;
+  @override
+  String? get replyTo;
   @override
   String get posterId;
   @override

@@ -15,7 +15,7 @@ class PostFeedWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: StreamBuilder<List<Post>>(
-        stream: context.read<PostRepository>().retrivePostsStream(),
+        stream: context.read<PostRepository>().retriveStream(isReply: false),
         builder: (context, postsSnapshot) {
           // Handle different connection states
           if (postsSnapshot.connectionState == ConnectionState.waiting) {

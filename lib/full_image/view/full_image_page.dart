@@ -13,7 +13,10 @@ class FullImagePage extends StatelessWidget {
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
-        child: Image.network(imgUrl),
+        child: Image.network(
+          imgUrl,
+          fit: BoxFit.cover,
+        ),
       ),
     );
   }

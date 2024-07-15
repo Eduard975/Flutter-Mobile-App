@@ -53,7 +53,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
     return Column(
       children: [
         SizedBox(
-          height: 200,
+          height: MediaQuery.of(context).size.width * 0.60,
           width: MediaQuery.of(context).size.width,
           child: PageView.builder(
             itemCount: imageUrls.length,
@@ -81,6 +81,19 @@ class _ImageCarouselState extends State<ImageCarousel> {
                       imageUrls[index],
                       fit: BoxFit.cover,
                     )),
+                //child: AspectRatio(
+                //   aspectRatio: MediaQuery.of(context).size.width /
+                //       MediaQuery.of(context).size.height,
+                //   child: Container(
+                //     decoration: BoxDecoration(
+                //       image: DecorationImage(
+                //         fit: BoxFit.fitWidth,
+                //         alignment: FractionalOffset.topCenter,
+                //         image: NetworkImage(imageUrls[index]),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               );
             },
           ),
