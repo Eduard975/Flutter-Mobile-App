@@ -44,9 +44,10 @@ class PostRepository {
   }
 
   Stream<List<Post>> retriveStream({required String? replyTo}) {
+    bool replyIsNull = (replyTo == null) ? true : false;
     return _firebaseFirestore
         .collection('posts')
-        .where('replyTo', isEqualTo: replyTo)
+        .where('replyTo', isNull: replyIsNull, isEqualTo: replyTo)
         .orderBy('postDate', descending: true)
         .snapshots()
         .map((querySnapshot) {

@@ -18,6 +18,7 @@ class PostFeedWidget extends StatelessWidget {
     return MaterialPageRoute<void>(
         builder: (_) => PostFeedWidget(
               userId: userId,
+              replyTo: replyTo,
             ));
   }
 
@@ -63,7 +64,7 @@ class PostFeedWidget extends StatelessWidget {
                               .retrivePostImages(post: post),
                         ),
                         const Flexible(flex: 2, child: SizedBox(height: 20)),
-                        displayBottmRow(context, post.postId, post.postDate),
+                        displayBottomRow(context, post.postId, post.postDate),
                       ],
                     ),
                   );
@@ -91,7 +92,8 @@ class PostFeedWidget extends StatelessWidget {
     return formatDate(myDate, [HH, ':', nn, ' ', d, '-', MM, '-', yyyy]);
   }
 
-  Widget displayBottmRow(BuildContext context, String postId, String postDate) {
+  Widget displayBottomRow(
+      BuildContext context, String postId, String postDate) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -105,14 +107,14 @@ class PostFeedWidget extends StatelessWidget {
   Widget displayReplyBtn(BuildContext context, String postId) {
     return IntrinsicHeight(
       child: IconButton(
-        onPressed: () => Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => ReplyPage(
-                userId: userId,
-                replyTo: postId,
-              ),
-            )),
+        onPressed: () => Navigator.push(context, MaterialPageRoute(
+          builder: (context) {
+            return ReplyPage(
+              userId: userId,
+              replyTo: postId,
+            );
+          },
+        )),
         icon: const Icon(Icons.comment_rounded),
         iconSize: 25,
       ),
