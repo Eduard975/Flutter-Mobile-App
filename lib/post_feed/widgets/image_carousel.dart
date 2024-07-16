@@ -1,4 +1,4 @@
-import 'package:first_app/full_image/full_image_page.dart';
+import 'package:first_app/full_image/full_image.dart';
 import 'package:flutter/material.dart';
 // import 'dart:developer' as developer;
 
