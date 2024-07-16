@@ -12,6 +12,8 @@ import 'package:first_app/splash/splash.dart';
 import 'package:post_repository/post_repository.dart';
 import 'package:registration_repository/registration_repository.dart';
 
+import 'package:device_repository/device_repository.dart';
+
 class App extends StatefulWidget {
   const App({super.key});
 
@@ -23,6 +25,7 @@ class _AppState extends State<App> {
   late final AuthenticationRepository _authenticationRepository;
   late final RegistrationRepository _registrationRepository;
   late final PostRepository _postRepository;
+  late final DeviceRepository _deviceRepository;
 
   @override
   void initState() {
@@ -30,6 +33,7 @@ class _AppState extends State<App> {
     _authenticationRepository = AuthenticationRepository();
     _registrationRepository = RegistrationRepository();
     _postRepository = PostRepository();
+    _deviceRepository = DeviceRepository();
   }
 
   @override
@@ -45,6 +49,7 @@ class _AppState extends State<App> {
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _registrationRepository),
         RepositoryProvider.value(value: _postRepository),
+        RepositoryProvider.value(value: _deviceRepository),
       ],
       child: BlocProvider(
         create: (_) => AuthenticationBloc(

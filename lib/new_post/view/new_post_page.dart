@@ -7,17 +7,21 @@ import 'package:post_repository/post_repository.dart';
 
 class NewPostPage extends StatelessWidget {
   final String? userId;
+  final String? replyTo;
 
   const NewPostPage({
     this.userId,
+    this.replyTo,
     super.key,
   });
 
   Route<void> route() {
     return MaterialPageRoute<void>(
-        builder: (_) => NewPostPage(
-              userId: userId,
-            ));
+      builder: (_) => NewPostPage(
+        userId: userId,
+        replyTo: replyTo,
+      ),
+    );
   }
 
   @override
@@ -25,19 +29,22 @@ class NewPostPage extends StatelessWidget {
     final userId = context.select(
       (AuthenticationBloc bloc) => bloc.state.user.name,
     );
+    String titleText = "Posteaza ceva cumetre";
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        title: const Text("Posteaza ceva cumetre"),
+        title: Text(titleText),
       ),
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: BlocProvider(
-            lazy: false,
-            create: (context) => NewPostCubit(context.read<PostRepository>()),
-            child: NewPostForm(
-              userId: userId,
-            )),
+          lazy: false,
+          create: (context) => NewPostCubit(context.read<PostRepository>()),
+          child: NewPostForm(
+            userId: userId,
+            replyTo: replyTo,
+          ),
+        ),
       ),
     );
   }

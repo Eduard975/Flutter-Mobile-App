@@ -1,3 +1,4 @@
+import 'package:device_repository/device_repository.dart';
 import 'package:first_app/authentication/authentication.dart';
 import 'package:first_app/post_feed/post_feed.dart';
 import 'package:flutter/material.dart';
@@ -13,11 +14,6 @@ class HomePage extends StatelessWidget {
     return MaterialPageRoute<void>(builder: (_) => const HomePage());
   }
 
-  double deviceHeight(BuildContext context) =>
-      MediaQuery.of(context).size.height;
-
-  double deviceWidth(BuildContext context) => MediaQuery.of(context).size.width;
-
   @override
   Widget build(BuildContext context) {
     final userId = context.select(
@@ -27,19 +23,13 @@ class HomePage extends StatelessWidget {
       appBar: AppBar(
         title: Container(
           padding: EdgeInsets.symmetric(
-            vertical: deviceHeight(context) * 0.05,
-            horizontal: deviceWidth(context) * 0.05,
+            vertical: DeviceRepository.deviceHeight(context) * 0.05,
+            horizontal: DeviceRepository.deviceWidth(context) * 0.05,
           ),
           child: Row(
             children: [
               ElevatedButton(
-                onPressed: () async {
-                  // List<Post> postList =
-                  //     await context.read<PostRepository>().retrivePosts();
-                  // context
-                  //     .read<PostRepository>()
-                  //     .retrivePostImagess(post: postList[0]);
-                },
+                onPressed: () async {},
                 style: ElevatedButton.styleFrom(
                   alignment: Alignment.centerLeft,
                 ),
@@ -67,8 +57,8 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(
-          vertical: deviceHeight(context) * 0.05,
-          horizontal: deviceWidth(context) * 0.05,
+          vertical: DeviceRepository.deviceHeight(context) * 0.05,
+          horizontal: DeviceRepository.deviceWidth(context) * 0.05,
         ),
         child: const PostFeedWidget(),
       ),

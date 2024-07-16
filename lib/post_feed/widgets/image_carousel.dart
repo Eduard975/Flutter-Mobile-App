@@ -54,7 +54,7 @@ class _ImageCarouselState extends State<ImageCarousel> {
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.width * 0.60,
+          height: MediaQuery.of(context).size.height * 0.3,
           width: MediaQuery.of(context).size.width,
           child: PageView.builder(
             itemCount: imageUrls.length,

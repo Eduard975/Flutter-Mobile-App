@@ -52,6 +52,8 @@ dependencies:
     path: packages/registration_repository
   post_repository:
     path: packages/post_repository
+  device_repository:
+    path: packages/device_repository
   firebase_auth: ^5.1.1
   image_picker: ^1.1.2
   date_format: ^2.0.7
