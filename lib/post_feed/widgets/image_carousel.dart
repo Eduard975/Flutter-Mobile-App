@@ -40,7 +40,8 @@ class _ImageCarouselState extends State<ImageCarousel> {
         } else if (snapshot.hasError) {
           return Center(child: Text('Error loading images: ${snapshot.error}'));
         } else if (!snapshot.hasData || snapshot.data!.isEmpty) {
-          return Container();
+          return SizedBox(
+              height: 1, width: double.infinity, child: Container());
         } else {
           List<String> imageUrls = snapshot.data!;
           return _buildImageCarousel(imageUrls);
