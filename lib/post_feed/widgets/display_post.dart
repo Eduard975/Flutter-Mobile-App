@@ -48,10 +48,16 @@ class DisplayPost {
               child: Text('Problem loading posts: ${postsSnapshot.error}'),
             );
           } else {
-            return Center(
-              child: Text((replyTo == null)
-                  ? 'N-avem postari man'
-                  : 'Fii primul care comenteza!'),
+            return ListView(
+              children: <Widget>[
+                (topOfList == null) ? Container() : topOfList,
+                const SizedBox(height: 10),
+                Center(
+                  child: Text((replyTo == null)
+                      ? 'N-avem postari man'
+                      : 'Fii primul care comenteza!'),
+                ),
+              ],
             );
           }
         } else {
@@ -86,7 +92,7 @@ class DisplayPost {
             futureUrls:
                 context.read<PostRepository>().retrivePostImages(post: post),
           ),
-          const Flexible(flex: 2, child: SizedBox(height: 20)),
+          const Flexible(flex: 1, child: SizedBox(height: 20)),
           displayBottomRow(context, post, userId),
         ],
       ),

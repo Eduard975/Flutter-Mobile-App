@@ -42,8 +42,8 @@ class ReplyPage extends StatelessWidget {
         child: Column(
           children: [
             DisplayPost.displayPost(context, postReplyedTo, userId, null),
-            Expanded(
-              flex: 2,
+            Flexible(
+              flex: 1,
               child: PostFeedWidget(
                 userId: userId,
                 replyTo: postReplyedTo.postId,

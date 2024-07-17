@@ -57,6 +57,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(
+          vertical: DeviceRepository.deviceHeight(context) * 0.05,
           horizontal: DeviceRepository.deviceWidth(context) * 0.05,
         ),
         child: PostFeedWidget(

@@ -31,7 +31,6 @@ class NewPostForm extends StatelessWidget {
               ),
             );
         } else if (state.status == FormzSubmissionStatus.success) {
-          context.read<NewPostCubit>().resetState();
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
@@ -41,12 +40,14 @@ class NewPostForm extends StatelessWidget {
             );
           if (replyTo == null) {
             Navigator.pop(context);
+          } else {
+            context.read<NewPostCubit>().resetState();
           }
         }
       },
       child: Container(
         constraints: const BoxConstraints(
-          minHeight: 150,
+          minHeight: 130,
           maxHeight: 350,
         ),
         padding: EdgeInsets.symmetric(
