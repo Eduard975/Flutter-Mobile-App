@@ -39,7 +39,9 @@ class NewPostForm extends StatelessWidget {
                 content: Text('Ai postat cu succes, serifule!'),
               ),
             );
-          Navigator.pop(context);
+          if (replyTo == null) {
+            Navigator.pop(context);
+          }
         }
       },
       child: Container(

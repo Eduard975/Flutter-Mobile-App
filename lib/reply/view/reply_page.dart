@@ -1,27 +1,26 @@
 import 'package:first_app/authentication/bloc/authentication_bloc.dart';
 import 'package:first_app/new_post/cubit/new_post_cubit.dart';
 import 'package:first_app/new_post/view/new_post_form.dart';
-import 'package:first_app/new_post/view/new_post_page.dart';
-import 'package:first_app/post_feed/view/post_feed.dart';
+import 'package:first_app/post_feed/post_feed.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:post_repository/post_repository.dart';
 
 class ReplyPage extends StatelessWidget {
   final String? userId;
-  final String? replyTo;
+  final Post postReplyedTo;
 
   const ReplyPage({
     this.userId,
-    this.replyTo,
+    required this.postReplyedTo,
     super.key,
   });
 
   Route<void> route() {
     return MaterialPageRoute<void>(
-      builder: (_) => NewPostPage(
+      builder: (_) => ReplyPage(
         userId: userId,
-        replyTo: replyTo,
+        postReplyedTo: postReplyedTo,
       ),
     );
   }
@@ -37,27 +36,33 @@ class ReplyPage extends StatelessWidget {
         automaticallyImplyLeading: true,
         title: Text(titleText),
       ),
+      resizeToAvoidBottomInset: true,
       body: Padding(
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            BlocProvider(
-              lazy: false,
-              create: (context) => NewPostCubit(context.read<PostRepository>()),
-              child: NewPostForm(
-                userId: userId,
-                replyTo: replyTo,
-              ),
-            ),
+            DisplayPost.displayPost(context, postReplyedTo, userId, null),
             Expanded(
               flex: 2,
               child: PostFeedWidget(
                 userId: userId,
-                replyTo: replyTo,
+                replyTo: postReplyedTo.postId,
+                topOfFeed: newCommentForm(),
               ),
             ),
           ],
         ),
+      ),
+    );
+  }
+
+  Widget newCommentForm() {
+    return BlocProvider(
+      lazy: false,
+      create: (context) => NewPostCubit(context.read<PostRepository>()),
+      child: NewPostForm(
+        userId: userId!,
+        replyTo: postReplyedTo.postId,
       ),
     );
   }

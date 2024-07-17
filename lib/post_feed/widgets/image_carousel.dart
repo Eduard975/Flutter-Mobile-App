@@ -54,11 +54,10 @@ class _ImageCarouselState extends State<ImageCarousel> {
     return Column(
       children: [
         SizedBox(
-          height: MediaQuery.of(context).size.height * 0.3,
-          width: MediaQuery.of(context).size.width,
+          height: 100,
           child: PageView.builder(
             itemCount: imageUrls.length,
-            controller: PageController(viewportFraction: 0.8),
+            controller: PageController(viewportFraction: 1),
             pageSnapping: true,
             onPageChanged: (page) {
               setState(() {
@@ -66,36 +65,20 @@ class _ImageCarouselState extends State<ImageCarousel> {
               });
             },
             itemBuilder: (context, index) {
-              return Container(
-                margin: const EdgeInsets.all(10),
-                child: InkWell(
-                    onTap: () => {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) =>
-                                  FullImagePage(imgUrl: imageUrls[index]),
-                            ),
+              return InkWell(
+                  onTap: () => {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) =>
+                                FullImagePage(imgUrl: imageUrls[index]),
                           ),
-                        },
-                    child: Image.network(
-                      imageUrls[index],
-                      fit: BoxFit.cover,
-                    )),
-                //child: AspectRatio(
-                //   aspectRatio: MediaQuery.of(context).size.width /
-                //       MediaQuery.of(context).size.height,
-                //   child: Container(
-                //     decoration: BoxDecoration(
-                //       image: DecorationImage(
-                //         fit: BoxFit.fitWidth,
-                //         alignment: FractionalOffset.topCenter,
-                //         image: NetworkImage(imageUrls[index]),
-                //       ),
-                //     ),
-                //   ),
-                // ),
-              );
+                        ),
+                      },
+                  child: Image.network(
+                    imageUrls[index],
+                    fit: BoxFit.fitHeight,
+                  ));
             },
           ),
         ),
