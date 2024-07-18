@@ -163,14 +163,12 @@ class DisplayPost {
             color: Colors.black87,
           ),
         ),
-        Expanded(
-          child: Text(
-            (replyTo == null) ? ' a postat:' : ' a comentat:',
-            style: const TextStyle(
-              fontSize: 16.0,
-              fontWeight: FontWeight.normal,
-              color: Colors.black87,
-            ),
+        Text(
+          (replyTo == null) ? ' a postat:' : ' a comentat:',
+          style: const TextStyle(
+            fontSize: 16.0,
+            fontWeight: FontWeight.normal,
+            color: Colors.black87,
           ),
         ),
       ],

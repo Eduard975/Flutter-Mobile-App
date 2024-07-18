@@ -79,7 +79,8 @@ Container displayBottomRow(String userId, String? replyTo) {
       minHeight: 10,
       maxHeight: 40,
     ),
-    child: Expanded(
+    child: Flexible(
+      flex: 1,
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
@@ -95,7 +96,32 @@ Container displayBottomRow(String userId, String? replyTo) {
   );
 }
 
-class _TextInput extends StatelessWidget {
+class _TextInput extends StatefulWidget {
+  @override
+  _TextInputState createState() => _TextInputState();
+}
+
+class _TextInputState extends State<_TextInput> {
+  late TextEditingController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = TextEditingController();
+    final NewPostState state = context.read<NewPostCubit>().state;
+    _controller.text = state.postText.value;
+  }
+
+  @override
+  void didUpdateWidget(covariant _TextInput oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    final NewPostState state = context.read<NewPostCubit>().state;
+    if (_controller.text != state.postText.value &&
+        state.status == FormzSubmissionStatus.success) {
+      _controller.text = state.postText.value;
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -103,26 +129,42 @@ class _TextInput extends StatelessWidget {
         minHeight: 20,
         maxHeight: 80,
       ),
-      child: Expanded(
-        child: BlocBuilder<NewPostCubit, NewPostState>(
-          buildWhen: (previous, current) =>
-              previous.postText != current.postText,
-          builder: (context, state) {
-            return TextFormField(
-              key: const Key('newPostForm_textInput_textField'),
-              onChanged: context.read<NewPostCubit>().textChanged,
-              keyboardType: TextInputType.text,
-              decoration: InputDecoration(
-                labelText: 'Scrie-ti aici gandurile, rege!',
-                helperText: '',
-                errorText:
-                    state.postText.displayError != null ? 'Invalid text' : null,
-              ),
-            );
+      child: Flexible(
+        flex: 1,
+        child: BlocListener<NewPostCubit, NewPostState>(
+          listener: (context, state) {
+            if (state.status == FormzSubmissionStatus.success) {
+              _controller.clear();
+            }
           },
+          child: BlocBuilder<NewPostCubit, NewPostState>(
+            buildWhen: (previous, current) =>
+                previous.postText.value != current.postText.value ||
+                previous.status != current.status,
+            builder: (context, state) {
+              return TextFormField(
+                controller: _controller,
+                onChanged: context.read<NewPostCubit>().textChanged,
+                keyboardType: TextInputType.text,
+                decoration: InputDecoration(
+                  labelText: 'Scrie-ti aici gandurile, rege!',
+                  helperText: '',
+                  errorText: state.postText.displayError != null
+                      ? 'Invalid text'
+                      : null,
+                ),
+              );
+            },
+          ),
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
   }
 }
 

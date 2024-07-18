@@ -97,6 +97,8 @@ class NewPostCubit extends Cubit<NewPostState> {
     try {
       await _postRepository.newPost(post: post, images: images);
       emit(state.copyWith(
+        postText: const PostText.dirty(''),
+        postImg: const PostImg.pure(),
         status: FormzSubmissionStatus.success,
       ));
     } catch (e) {
