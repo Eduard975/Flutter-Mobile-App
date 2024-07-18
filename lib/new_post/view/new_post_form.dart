@@ -51,7 +51,7 @@ class NewPostForm extends StatelessWidget {
           maxHeight: 350,
         ),
         padding: EdgeInsets.symmetric(
-          vertical: DeviceRepository.deviceHeight(context) * 0.05,
+          vertical: DeviceRepository.deviceHeight(context) * 0.02,
           horizontal: DeviceRepository.deviceWidth(context) * 0.05,
         ),
         decoration: const BoxDecoration(
@@ -73,26 +73,18 @@ class NewPostForm extends StatelessWidget {
   }
 }
 
-Container displayBottomRow(String userId, String? replyTo) {
-  return Container(
-    constraints: const BoxConstraints(
-      minHeight: 10,
-      maxHeight: 40,
-    ),
-    child: Flexible(
-      flex: 1,
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          const _ImageInput(ImageSource.camera),
-          _PostButton(
-            userId: userId,
-            replyTo: replyTo,
-          ),
-          const _ImageInput(ImageSource.gallery),
-        ],
+Widget displayBottomRow(String userId, String? replyTo) {
+  return Flex(
+    mainAxisAlignment: MainAxisAlignment.center,
+    direction: Axis.horizontal,
+    children: [
+      const _ImageInput(ImageSource.camera),
+      _PostButton(
+        userId: userId,
+        replyTo: replyTo,
       ),
-    ),
+      const _ImageInput(ImageSource.gallery),
+    ],
   );
 }
 
@@ -129,33 +121,29 @@ class _TextInputState extends State<_TextInput> {
         minHeight: 20,
         maxHeight: 80,
       ),
-      child: Flexible(
-        flex: 1,
-        child: BlocListener<NewPostCubit, NewPostState>(
-          listener: (context, state) {
-            if (state.status == FormzSubmissionStatus.success) {
-              _controller.clear();
-            }
+      child: BlocListener<NewPostCubit, NewPostState>(
+        listener: (context, state) {
+          if (state.status == FormzSubmissionStatus.success) {
+            _controller.clear();
+          }
+        },
+        child: BlocBuilder<NewPostCubit, NewPostState>(
+          buildWhen: (previous, current) =>
+              previous.postText.value != current.postText.value ||
+              previous.status != current.status,
+          builder: (context, state) {
+            return TextFormField(
+              controller: _controller,
+              onChanged: context.read<NewPostCubit>().textChanged,
+              keyboardType: TextInputType.text,
+              decoration: InputDecoration(
+                labelText: 'Scrie-ti aici gandurile, rege!',
+                helperText: '',
+                errorText:
+                    state.postText.displayError != null ? 'Invalid text' : null,
+              ),
+            );
           },
-          child: BlocBuilder<NewPostCubit, NewPostState>(
-            buildWhen: (previous, current) =>
-                previous.postText.value != current.postText.value ||
-                previous.status != current.status,
-            builder: (context, state) {
-              return TextFormField(
-                controller: _controller,
-                onChanged: context.read<NewPostCubit>().textChanged,
-                keyboardType: TextInputType.text,
-                decoration: InputDecoration(
-                  labelText: 'Scrie-ti aici gandurile, rege!',
-                  helperText: '',
-                  errorText: state.postText.displayError != null
-                      ? 'Invalid text'
-                      : null,
-                ),
-              );
-            },
-          ),
         ),
       ),
     );
