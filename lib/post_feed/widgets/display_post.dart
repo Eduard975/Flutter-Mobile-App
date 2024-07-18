@@ -105,9 +105,56 @@ class DisplayPost {
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
+        displaylikeBtn(context, post, userId),
         displayDate(post.postDate),
         displayReplyBtn(context, post, userId),
       ],
+    );
+  }
+
+  static Widget displaylikeBtn(BuildContext context, Post post, String userId) {
+    // bool isLiked = false;
+    // TODO: Make Favorite icon and LikeCounter into separate stateful widgets
+    return Center(
+      child: Stack(
+        alignment: Alignment.center,
+        children: <Widget>[
+          IntrinsicHeight(
+            child: IconButton(
+              onPressed: () => {
+                // return Navigator.push(context, MaterialPageRoute(
+                //   builder: (context) {
+                //     return ReplyPage(
+                //       userId: userId,
+                //       postReplyedTo: post,
+                //     );
+                //   },
+                // )),
+              },
+              icon:
+                  //  isLiked
+                  //     ? Icon(
+                  //         Icons.favorite,
+                  //         color: Colors.red.shade400,
+                  //       )
+                  //     :
+                  Icon(
+                Icons.favorite_border,
+                color: Colors.red.shade400,
+              ),
+              iconSize: 35,
+            ),
+          ),
+          const Text(
+            "5",
+            style: TextStyle(
+              fontSize: 12,
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 16, 8, 8),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -124,7 +171,7 @@ class DisplayPost {
           },
         )),
         icon: const Icon(Icons.comment_rounded),
-        iconSize: 25,
+        iconSize: 30,
       ),
     );
   }

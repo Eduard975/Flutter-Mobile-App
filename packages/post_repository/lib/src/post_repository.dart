@@ -9,7 +9,7 @@ class PostRepository {
   PostRepository();
 
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-
+  //TODO: Add support for storing and retrieving likes
   Future<void> newPost({
     required Post post,
     required List<String> images,
