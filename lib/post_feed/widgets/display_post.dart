@@ -1,18 +1,21 @@
+import 'dart:async';
+
 import 'package:date_format/date_format.dart';
 import 'package:first_app/post_feed/widgets/image_carousel.dart';
+import 'package:first_app/post_feed/widgets/like_widget.dart';
 import 'package:first_app/reply/view/reply_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:post_repository/post_repository.dart';
 
 class DisplayPost {
-  const DisplayPost();
-  static String parseDate(String date) {
+  DisplayPost();
+  String parseDate(String date) {
     DateTime myDate = DateTime.parse(date).toLocal();
     return formatDate(myDate, [HH, ':', nn, ' ', d, '-', MM, '-', yyyy]);
   }
 
-  static Widget displayFeed(BuildContext context, String userId,
+  Widget displayFeed(BuildContext context, String userId,
       [String? replyTo, Widget? topOfList]) {
     return StreamBuilder<List<Post>>(
       stream: context.read<PostRepository>().retriveStream(replyTo: replyTo),
@@ -40,7 +43,8 @@ class DisplayPost {
                     post = postsSnapshot.data![index - 1];
                   }
                 }
-                return DisplayPost.displayPost(context, post, userId, replyTo);
+                return DisplayPost()
+                    .displayPost(context, post, userId, replyTo);
               },
             );
           } else if (postsSnapshot.hasError) {
@@ -67,7 +71,7 @@ class DisplayPost {
     );
   }
 
-  static Widget displayPost(BuildContext context, Post post, String userId,
+  Widget displayPost(BuildContext context, Post post, String userId,
       [String? replyTo]) {
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -99,8 +103,7 @@ class DisplayPost {
     );
   }
 
-  static Widget displayBottomRow(
-      BuildContext context, Post post, String userId) {
+  Widget displayBottomRow(BuildContext context, Post post, String userId) {
     return Row(
       crossAxisAlignment: CrossAxisAlignment.center,
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -112,42 +115,21 @@ class DisplayPost {
     );
   }
 
-  static Widget displaylikeBtn(BuildContext context, Post post, String userId) {
-    // TODO: Make Favorite icon and LikeCounter into separate stateful widgets
-    int likeCount = 0;
-    return Center(
-      child: Stack(
-        alignment: Alignment.center,
-        children: <Widget>[
-          IntrinsicHeight(
-            child: IconButton(
-              onPressed: () async {
-                likeCount = await context
-                    .read<PostRepository>()
-                    .updatePostLikes(post: post, userId: userId);
-              },
-              icon: Icon(
-                Icons.favorite_border,
-                color: Colors.red.shade400,
-              ),
-              iconSize: 35,
-            ),
-          ),
-          Text(
-            '$likeCount',
-            style: const TextStyle(
-              fontSize: 12,
-              fontWeight: FontWeight.bold,
-              color: Color.fromARGB(255, 16, 8, 8),
-            ),
-          ),
-        ],
-      ),
+  void setCurrentState(currentState) {
+    this.currentState = currentState;
+  }
+
+
+  }
+
+  Widget displaylikeBtn(BuildContext context, Post post, String userId) {
+    // TODO: Find a way to retrive number of likes and liked status
+    return LikeWidget(
+      currentState: currentState,
     );
   }
 
-  static Widget displayReplyBtn(
-      BuildContext context, Post post, String userId) {
+  Widget displayReplyBtn(BuildContext context, Post post, String userId) {
     return IntrinsicHeight(
       child: IconButton(
         onPressed: () => Navigator.push(context, MaterialPageRoute(
@@ -164,7 +146,7 @@ class DisplayPost {
     );
   }
 
-  static Widget displayDate(String postDate) {
+  Widget displayDate(String postDate) {
     return Text(
       parseDate(postDate),
       style: const TextStyle(
@@ -175,7 +157,7 @@ class DisplayPost {
     );
   }
 
-  static Widget displayPostText(String postText) {
+  Widget displayPostText(String postText) {
     return Text(
       postText,
       style: const TextStyle(
@@ -187,7 +169,7 @@ class DisplayPost {
     );
   }
 
-  static Widget displayPosterId(String posterId, String? replyTo) {
+  Widget displayPosterId(String posterId, String? replyTo) {
     return Row(
       children: [
         Text(

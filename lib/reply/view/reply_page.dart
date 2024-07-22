@@ -41,7 +41,7 @@ class ReplyPage extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         child: Column(
           children: [
-            DisplayPost.displayPost(context, postReplyedTo, userId, null),
+            DisplayPost().displayPost(context, postReplyedTo, userId, null),
             Flexible(
               flex: 1,
               child: PostFeedWidget(

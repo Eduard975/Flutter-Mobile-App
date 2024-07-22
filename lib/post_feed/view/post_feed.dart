@@ -24,6 +24,6 @@ class PostFeedWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        body: DisplayPost.displayFeed(context, userId, replyTo, topOfFeed));
+        body: DisplayPost().displayFeed(context, userId, replyTo, topOfFeed));
   }
 }

@@ -43,11 +43,13 @@ class PostRepository {
     }
   }
 
-  Future<int> updatePostLikes({
+  Future<(bool, int)> updatePostLikes({
     required Post post,
     required String userId,
   }) async {
     try {
+      bool isLiked = false;
+
       DocumentReference postDocRef = _firebaseFirestore
           .collection(
             'posts',
@@ -73,11 +75,13 @@ class PostRepository {
 
       Set<String> usersThatLiked =
           Set<String>.from((await likesDocRef.get()).get('usersThatLiked'));
-
-      if (usersThatLiked.contains(userId))
+      if (usersThatLiked.contains(userId)) {
         usersThatLiked.remove(userId);
-      else
+        isLiked = false;
+      } else {
         usersThatLiked.add(userId);
+        isLiked = true;
+      }
 
       likes = likes.copyWith(
         usersThatLiked: usersThatLiked.toList(),
@@ -87,7 +91,7 @@ class PostRepository {
 
       await likesDocRef.set(likes.toJson());
 
-      return likes.usersThatLiked!.length;
+      return (isLiked, likes.usersThatLiked!.length);
     } catch (e) {
       developer.log('usersThatLiked: ' + '$e');
       throw '$e';
