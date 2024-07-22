@@ -9,7 +9,6 @@ class PostRepository {
   PostRepository();
 
   final FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
-  //TODO: Add support for storing and retrieving likes
   Future<void> newPost({
     required Post post,
     required List<String> images,
@@ -27,7 +26,7 @@ class PostRepository {
         String imgIndx =
             (imgCount < 10) ? ('0' + imgCount.toString()) : imgCount.toString();
         final imageRef = storageRef.child(
-          '${post.posterId}/${docRef.id}/${imgIndx}',
+          'PostImages/${post.posterId}/${docRef.id}/${imgIndx}',
         );
         await imageRef.putFile(File(imagePath));
         imgCount++;
@@ -35,10 +34,62 @@ class PostRepository {
       post = post.copyWith(
         postId: docRef.id,
         postImage: "${imgCount}",
+        likedBy: null,
       );
       await docRef.set(post.toJson());
     } catch (e) {
       developer.log('$e');
+      throw '$e';
+    }
+  }
+
+  Future<int> updatePostLikes({
+    required Post post,
+    required String userId,
+  }) async {
+    try {
+      DocumentReference postDocRef = _firebaseFirestore
+          .collection(
+            'posts',
+          )
+          .doc(post.postId);
+
+      CollectionReference collectionRef = _firebaseFirestore.collection(
+        'likes',
+      );
+      DocumentReference likesDocRef;
+      Likes likes = Likes.empty;
+
+      if (post.likedBy == null) {
+        likesDocRef = collectionRef.doc();
+        post = post.copyWith(
+          likedBy: likesDocRef.id,
+        );
+        await postDocRef.set(post.toJson());
+        await likesDocRef.set(likes.toJson());
+      } else {
+        likesDocRef = collectionRef.doc(post.likedBy);
+      }
+
+      Set<String> usersThatLiked =
+          Set<String>.from((await likesDocRef.get()).get('usersThatLiked'));
+
+      if (usersThatLiked.contains(userId))
+        usersThatLiked.remove(userId);
+      else
+        usersThatLiked.add(userId);
+
+      likes = likes.copyWith(
+        usersThatLiked: usersThatLiked.toList(),
+      );
+
+      developer.log('usersThatLiked: ' + likes.toString());
+
+      await likesDocRef.set(likes.toJson());
+
+      return likes.usersThatLiked!.length;
+    } catch (e) {
+      developer.log('usersThatLiked: ' + '$e');
       throw '$e';
     }
   }
@@ -66,8 +117,8 @@ class PostRepository {
       List<String> imgUrlList = [];
       for (var i in Iterable.generate(imgTotal)) {
         String imgIndx = (i < 10) ? ('0' + i.toString()) : i.toString();
-        final imageRef =
-            storageRef.child('${post.posterId}/${post.postId}/${imgIndx}');
+        final imageRef = storageRef
+            .child('PostImages/${post.posterId}/${post.postId}/${imgIndx}');
         imgUrlList.add(await imageRef.getDownloadURL());
       }
       developer.log(imgUrlList.join('\n'));

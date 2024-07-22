@@ -12,6 +12,7 @@ _$PostImpl _$$PostImplFromJson(Map<String, dynamic> json) => _$PostImpl(
       postImage: json['postImage'] as String? ?? '',
       postDate: json['postDate'] as String? ?? '',
       replyTo: json['replyTo'] as String? ?? null,
+      likedBy: json['likedBy'] as String? ?? null,
       posterId: json['posterId'] as String,
     );
 
@@ -22,5 +23,6 @@ Map<String, dynamic> _$$PostImplToJson(_$PostImpl instance) =>
       'postImage': instance.postImage,
       'postDate': instance.postDate,
       'replyTo': instance.replyTo,
+      'likedBy': instance.likedBy,
       'posterId': instance.posterId,
     };

@@ -25,6 +25,7 @@ mixin _$Post {
   String get postImage => throw _privateConstructorUsedError;
   String get postDate => throw _privateConstructorUsedError;
   String? get replyTo => throw _privateConstructorUsedError;
+  String? get likedBy => throw _privateConstructorUsedError;
   String get posterId => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
@@ -43,6 +44,7 @@ abstract class $PostCopyWith<$Res> {
       String postImage,
       String postDate,
       String? replyTo,
+      String? likedBy,
       String posterId});
 }
 
@@ -64,6 +66,7 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
     Object? postImage = null,
     Object? postDate = null,
     Object? replyTo = freezed,
+    Object? likedBy = freezed,
     Object? posterId = null,
   }) {
     return _then(_value.copyWith(
@@ -87,6 +90,10 @@ class _$PostCopyWithImpl<$Res, $Val extends Post>
           ? _value.replyTo
           : replyTo // ignore: cast_nullable_to_non_nullable
               as String?,
+      likedBy: freezed == likedBy
+          ? _value.likedBy
+          : likedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
       posterId: null == posterId
           ? _value.posterId
           : posterId // ignore: cast_nullable_to_non_nullable
@@ -108,6 +115,7 @@ abstract class _$$PostImplCopyWith<$Res> implements $PostCopyWith<$Res> {
       String postImage,
       String postDate,
       String? replyTo,
+      String? likedBy,
       String posterId});
 }
 
@@ -126,6 +134,7 @@ class __$$PostImplCopyWithImpl<$Res>
     Object? postImage = null,
     Object? postDate = null,
     Object? replyTo = freezed,
+    Object? likedBy = freezed,
     Object? posterId = null,
   }) {
     return _then(_$PostImpl(
@@ -149,6 +158,10 @@ class __$$PostImplCopyWithImpl<$Res>
           ? _value.replyTo
           : replyTo // ignore: cast_nullable_to_non_nullable
               as String?,
+      likedBy: freezed == likedBy
+          ? _value.likedBy
+          : likedBy // ignore: cast_nullable_to_non_nullable
+              as String?,
       posterId: null == posterId
           ? _value.posterId
           : posterId // ignore: cast_nullable_to_non_nullable
@@ -166,6 +179,7 @@ class _$PostImpl extends _Post {
       this.postImage = '',
       this.postDate = '',
       this.replyTo = null,
+      this.likedBy = null,
       required this.posterId})
       : super._();
 
@@ -187,11 +201,14 @@ class _$PostImpl extends _Post {
   @JsonKey()
   final String? replyTo;
   @override
+  @JsonKey()
+  final String? likedBy;
+  @override
   final String posterId;
 
   @override
   String toString() {
-    return 'Post(postId: $postId, postText: $postText, postImage: $postImage, postDate: $postDate, replyTo: $replyTo, posterId: $posterId)';
+    return 'Post(postId: $postId, postText: $postText, postImage: $postImage, postDate: $postDate, replyTo: $replyTo, likedBy: $likedBy, posterId: $posterId)';
   }
 
   @override
@@ -207,14 +224,15 @@ class _$PostImpl extends _Post {
             (identical(other.postDate, postDate) ||
                 other.postDate == postDate) &&
             (identical(other.replyTo, replyTo) || other.replyTo == replyTo) &&
+            (identical(other.likedBy, likedBy) || other.likedBy == likedBy) &&
             (identical(other.posterId, posterId) ||
                 other.posterId == posterId));
   }
 
   @JsonKey(ignore: true)
   @override
-  int get hashCode => Object.hash(
-      runtimeType, postId, postText, postImage, postDate, replyTo, posterId);
+  int get hashCode => Object.hash(runtimeType, postId, postText, postImage,
+      postDate, replyTo, likedBy, posterId);
 
   @JsonKey(ignore: true)
   @override
@@ -237,6 +255,7 @@ abstract class _Post extends Post {
       final String postImage,
       final String postDate,
       final String? replyTo,
+      final String? likedBy,
       required final String posterId}) = _$PostImpl;
   const _Post._() : super._();
 
@@ -252,6 +271,8 @@ abstract class _Post extends Post {
   String get postDate;
   @override
   String? get replyTo;
+  @override
+  String? get likedBy;
   @override
   String get posterId;
   @override

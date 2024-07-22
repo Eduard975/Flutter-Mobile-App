@@ -11,6 +11,7 @@ class Post with _$Post {
     @Default('') String postImage,
     @Default('') String postDate,
     @Default(null) String? replyTo,
+    @Default(null) String? likedBy,
     required String posterId,
   }) = _Post;
   const Post._();
@@ -19,7 +20,8 @@ class Post with _$Post {
     postText: '',
     postImage: '',
     postDate: '',
-    replyTo: '',
+    replyTo: null,
+    likedBy: null,
     posterId: '',
   );
 

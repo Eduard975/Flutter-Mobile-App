@@ -113,41 +113,29 @@ class DisplayPost {
   }
 
   static Widget displaylikeBtn(BuildContext context, Post post, String userId) {
-    // bool isLiked = false;
     // TODO: Make Favorite icon and LikeCounter into separate stateful widgets
+    int likeCount = 0;
     return Center(
       child: Stack(
         alignment: Alignment.center,
         children: <Widget>[
           IntrinsicHeight(
             child: IconButton(
-              onPressed: () => {
-                // return Navigator.push(context, MaterialPageRoute(
-                //   builder: (context) {
-                //     return ReplyPage(
-                //       userId: userId,
-                //       postReplyedTo: post,
-                //     );
-                //   },
-                // )),
+              onPressed: () async {
+                likeCount = await context
+                    .read<PostRepository>()
+                    .updatePostLikes(post: post, userId: userId);
               },
-              icon:
-                  //  isLiked
-                  //     ? Icon(
-                  //         Icons.favorite,
-                  //         color: Colors.red.shade400,
-                  //       )
-                  //     :
-                  Icon(
+              icon: Icon(
                 Icons.favorite_border,
                 color: Colors.red.shade400,
               ),
               iconSize: 35,
             ),
           ),
-          const Text(
-            "5",
-            style: TextStyle(
+          Text(
+            '$likeCount',
+            style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,
               color: Color.fromARGB(255, 16, 8, 8),
