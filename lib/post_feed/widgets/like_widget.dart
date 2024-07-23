@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 class LikeWidget extends StatefulWidget {
-  final (bool, int) currentState;
+  final Future<(bool, int)> currentState;
   const LikeWidget({
     required this.currentState,
     super.key,
@@ -12,13 +12,8 @@ class LikeWidget extends StatefulWidget {
 }
 
 class _LikeWidgetState extends State<LikeWidget> {
-  bool isLiked = false;
-  int likeCount = 0;
-
   @override
   void initState() {
-    isLiked = widget.currentState.$1;
-    likeCount = widget.currentState.$2;
     super.initState();
   }
 
@@ -29,10 +24,32 @@ class _LikeWidgetState extends State<LikeWidget> {
 
   @override
   Widget build(BuildContext context) {
-    return _buildLikeWidget();
+    return FutureBuilder<(bool, int)>(
+      future: widget.currentState,
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return const Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error loading likes: ${snapshot.error}'));
+        } else if (!snapshot.hasData) {
+          ScaffoldMessenger.of(context)
+            ..hideCurrentSnackBar()
+            ..showSnackBar(
+              const SnackBar(content: Text('Nu am putut gasi')),
+            );
+          return SizedBox(
+              height: 1, width: double.infinity, child: Container());
+        } else {
+          (bool, int) state = snapshot.data!;
+          return _buildLikeWidget(state);
+        }
+      },
+    );
   }
 
-  Widget _buildLikeWidget() {
+  Widget _buildLikeWidget((bool, int) state) {
+    bool isLiked = state.$1;
+    int likeCount = state.$2;
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -51,13 +68,13 @@ class _LikeWidgetState extends State<LikeWidget> {
               },
               icon: Icon(
                 isLiked ? Icons.favorite : Icons.favorite_border,
-                color: isLiked ? Colors.red : Colors.grey,
+                color: isLiked ? Colors.red : Colors.red,
               ),
               iconSize: 35,
             ),
           ),
           Text(
-            '$likeCount', // Display the updated count
+            '$likeCount',
             style: const TextStyle(
               fontSize: 12,
               fontWeight: FontWeight.bold,

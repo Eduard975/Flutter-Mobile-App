@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:date_format/date_format.dart';
 import 'package:first_app/post_feed/widgets/image_carousel.dart';
 import 'package:first_app/post_feed/widgets/like_widget.dart';
@@ -20,7 +18,6 @@ class DisplayPost {
     return StreamBuilder<List<Post>>(
       stream: context.read<PostRepository>().retriveStream(replyTo: replyTo),
       builder: (context, postsSnapshot) {
-        // Handle different connection states
         if (postsSnapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
         } else if (postsSnapshot.connectionState == ConnectionState.active ||
@@ -115,17 +112,12 @@ class DisplayPost {
     );
   }
 
-  void setCurrentState(currentState) {
-    this.currentState = currentState;
-  }
-
-
-  }
-
   Widget displaylikeBtn(BuildContext context, Post post, String userId) {
-    // TODO: Find a way to retrive number of likes and liked status
     return LikeWidget(
-      currentState: currentState,
+      currentState: context.read<PostRepository>().updatePostLikes(
+            post: post,
+            userId: userId,
+          ),
     );
   }
 
