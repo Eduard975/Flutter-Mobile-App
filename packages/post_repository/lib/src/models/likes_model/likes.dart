@@ -10,7 +10,7 @@ class Likes with _$Likes {
   }) = _Likes;
   const Likes._();
   static const empty = Likes(
-    usersThatLiked: [],
+    usersThatLiked: <String>[],
   );
 
   bool get isEmpty => this == empty;

@@ -1,3 +1,6 @@
+import 'dart:math';
+
+import 'package:authentication_repository/authentification_repository.dart';
 import 'package:device_repository/device_repository.dart';
 import 'package:first_app/authentication/authentication.dart';
 import 'package:first_app/post_feed/post_feed.dart';
@@ -19,6 +22,9 @@ class HomePage extends StatelessWidget {
     final userId = context.select(
       (AuthenticationBloc bloc) => bloc.state.user.name,
     );
+    var status = context.select(
+      (AuthenticationBloc bloc) => bloc.state.status,
+    );
     return Scaffold(
       appBar: AppBar(
         title: Container(
@@ -37,7 +43,9 @@ class HomePage extends StatelessWidget {
                 child: SizedBox(
                   width: 62,
                   height: 20,
-                  child: Center(child: Text('${userId.substring(0, 8)}...')),
+                  child: Center(
+                      child: Text(
+                          '${userId.substring(0, min(userId.length, 8))}${min(userId.length, 8) < 8 ? "" : "..."}')),
                 ),
               ),
               IconButton(
@@ -64,7 +72,17 @@ class HomePage extends StatelessWidget {
           ),
         ),
       ),
-      body: Container(
+      body: postFeed(context, userId, status),
+    );
+  }
+
+  Widget postFeed(
+    BuildContext context,
+    String userId,
+    AuthenticationStatus status,
+  ) {
+    if (status.name == 'authenticated') {
+      return Container(
         padding: EdgeInsets.symmetric(
           vertical: DeviceRepository.deviceHeight(context) * 0.02,
           horizontal: DeviceRepository.deviceWidth(context) * 0.05,
@@ -72,7 +90,9 @@ class HomePage extends StatelessWidget {
         child: PostFeedWidget(
           userId: userId,
         ),
-      ),
-    );
+      );
+    } else {
+      return Container();
+    }
   }
 }

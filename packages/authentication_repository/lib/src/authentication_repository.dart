@@ -117,16 +117,19 @@ class AuthenticationRepository {
     try {
       late final firebase_auth.AuthCredential credential;
       final googleUser = await _googleSignIn.signIn();
-      final googleAuth = await googleUser!.authentication;
-      credential = firebase_auth.GoogleAuthProvider.credential(
-        accessToken: googleAuth.accessToken,
-        idToken: googleAuth.idToken,
-      );
+      if (googleUser != null) {
+        final googleAuth = await googleUser.authentication;
 
-      await _firebaseAuth.signInWithCredential(credential);
-      await Future(
-        () => _controller.add(AuthenticationStatus.authenticated),
-      );
+        credential = firebase_auth.GoogleAuthProvider.credential(
+          accessToken: googleAuth.accessToken,
+          idToken: googleAuth.idToken,
+        );
+
+        await _firebaseAuth.signInWithCredential(credential);
+        await Future(
+          () => _controller.add(AuthenticationStatus.authenticated),
+        );
+      }
     } on firebase_auth.FirebaseAuthException catch (e) {
       throw LogInWithGoogleFailure.fromCode(e.code);
     } catch (_) {

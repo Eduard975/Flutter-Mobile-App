@@ -15,28 +15,36 @@ class PostRepository {
   }) async {
     try {
       int imgCount = 0;
-      DocumentReference docRef = _firebaseFirestore
+      DocumentReference postsDocRef = _firebaseFirestore
           .collection(
             'posts',
           )
           .doc();
+      DocumentReference likesDocRef = _firebaseFirestore
+          .collection(
+            'likes',
+          )
+          .doc();
       final storageRef = FirebaseStorage.instance.ref();
+
+      await likesDocRef.set(Likes.empty.toJson());
 
       for (var imagePath in images) {
         String imgIndx =
             (imgCount < 10) ? ('0' + imgCount.toString()) : imgCount.toString();
         final imageRef = storageRef.child(
-          'PostImages/${post.posterId}/${docRef.id}/${imgIndx}',
+          'PostImages/${post.posterId}/${postsDocRef.id}/${imgIndx}',
         );
         await imageRef.putFile(File(imagePath));
         imgCount++;
       }
       post = post.copyWith(
-        postId: docRef.id,
+        postId: postsDocRef.id,
         postImage: "${imgCount}",
-        likedBy: null,
+        likedBy: likesDocRef.id,
       );
-      await docRef.set(post.toJson());
+
+      await postsDocRef.set(post.toJson());
     } catch (e) {
       developer.log('$e');
       throw '$e';
@@ -49,31 +57,17 @@ class PostRepository {
     bool btnPress = false,
   }) async {
     try {
-      DocumentReference postDocRef = _firebaseFirestore
+      DocumentReference likesDocRef = _firebaseFirestore
           .collection(
-            'posts',
+            'likes',
           )
-          .doc(post.postId);
+          .doc(post.likedBy);
 
-      CollectionReference collectionRef = _firebaseFirestore.collection(
-        'likes',
-      );
-      DocumentReference likesDocRef;
       Likes likes = Likes.empty;
-
-      if (post.likedBy == null) {
-        likesDocRef = collectionRef.doc();
-        post = post.copyWith(
-          likedBy: likesDocRef.id,
-        );
-        await postDocRef.set(post.toJson());
-        await likesDocRef.set(likes.toJson());
-      } else {
-        likesDocRef = collectionRef.doc(post.likedBy);
-      }
-
-      Set<String> usersThatLiked =
-          Set<String>.from((await likesDocRef.get()).get('usersThatLiked'));
+      List<String> usersThatLiked =
+          List<String>.from((await likesDocRef.get()).get(
+        'usersThatLiked',
+      ));
       bool isLiked = false;
       if (usersThatLiked.contains(userId)) {
         isLiked = true;
@@ -89,7 +83,7 @@ class PostRepository {
       }
 
       likes = likes.copyWith(
-        usersThatLiked: usersThatLiked.toList(),
+        usersThatLiked: usersThatLiked,
       );
 
       developer.log('usersThatLiked: ' + likes.toString());
@@ -110,11 +104,15 @@ class PostRepository {
         .where('replyTo', isNull: replyIsNull, isEqualTo: replyTo)
         .orderBy('postDate', descending: true)
         .snapshots()
-        .map((querySnapshot) {
-      return querySnapshot.docs.map((docSnapshot) {
-        return Post.fromJson(docSnapshot.data());
-      }).toList();
-    });
+        .map(
+      (querySnapshot) {
+        return querySnapshot.docs.map(
+          (docSnapshot) {
+            return Post.fromJson(docSnapshot.data());
+          },
+        ).toList();
+      },
+    );
   }
 
   Future<List<String>> retrivePostImages({
