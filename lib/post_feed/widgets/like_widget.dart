@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:post_repository/post_repository.dart';
 
 class LikeWidget extends StatefulWidget {
-  final Future<(bool, int)> currentState;
+  final Post post;
+  final String userId;
   const LikeWidget({
-    required this.currentState,
+    required this.post,
+    required this.userId,
     super.key,
   });
 
@@ -22,10 +26,15 @@ class _LikeWidgetState extends State<LikeWidget> {
     super.dispose();
   }
 
+  bool btnPress = false;
   @override
   Widget build(BuildContext context) {
     return FutureBuilder<(bool, int)>(
-      future: widget.currentState,
+      future: context.read<PostRepository>().updatePostLikes(
+            post: widget.post,
+            userId: widget.userId,
+            btnPress: btnPress,
+          ),
       builder: (context, snapshot) {
         if (snapshot.connectionState == ConnectionState.waiting) {
           return const Center(child: CircularProgressIndicator());
@@ -41,15 +50,13 @@ class _LikeWidgetState extends State<LikeWidget> {
               height: 1, width: double.infinity, child: Container());
         } else {
           (bool, int) state = snapshot.data!;
-          return _buildLikeWidget(state);
+          return _buildLikeWidget(state.$1, state.$2);
         }
       },
     );
   }
 
-  Widget _buildLikeWidget((bool, int) state) {
-    bool isLiked = state.$1;
-    int likeCount = state.$2;
+  Widget _buildLikeWidget(bool isLiked, int likeCount) {
     return Center(
       child: Stack(
         alignment: Alignment.center,
@@ -58,12 +65,7 @@ class _LikeWidgetState extends State<LikeWidget> {
             child: IconButton(
               onPressed: () {
                 setState(() {
-                  if (isLiked) {
-                    likeCount--;
-                  } else {
-                    likeCount++;
-                  }
-                  isLiked = !isLiked; // Toggle the icon color
+                  btnPress = true;
                 });
               },
               icon: Icon(

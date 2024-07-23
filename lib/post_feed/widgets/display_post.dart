@@ -114,10 +114,8 @@ class DisplayPost {
 
   Widget displaylikeBtn(BuildContext context, Post post, String userId) {
     return LikeWidget(
-      currentState: context.read<PostRepository>().updatePostLikes(
-            post: post,
-            userId: userId,
-          ),
+      post: post,
+      userId: userId,
     );
   }
 

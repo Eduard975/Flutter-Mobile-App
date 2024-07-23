@@ -27,13 +27,18 @@ class HomePage extends StatelessWidget {
             horizontal: DeviceRepository.deviceWidth(context) * 0.05,
           ),
           child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
                 onPressed: () async {},
                 style: ElevatedButton.styleFrom(
                   alignment: Alignment.centerLeft,
                 ),
-                child: Text(userId),
+                child: SizedBox(
+                  width: 62,
+                  height: 20,
+                  child: Center(child: Text('${userId.substring(0, 8)}...')),
+                ),
               ),
               IconButton(
                 key: const Key('newPageForm_continue_elevatedButton'),
@@ -49,7 +54,11 @@ class HomePage extends StatelessWidget {
                       .read<AuthenticationBloc>()
                       .add(AuthenticationLogoutRequested());
                 },
-                child: const Text('Logout'),
+                child: const SizedBox(
+                  width: 62,
+                  height: 20,
+                  child: Center(child: Text('Logout')),
+                ),
               ),
             ],
           ),
@@ -57,7 +66,7 @@ class HomePage extends StatelessWidget {
       ),
       body: Container(
         padding: EdgeInsets.symmetric(
-          vertical: DeviceRepository.deviceHeight(context) * 0.05,
+          vertical: DeviceRepository.deviceHeight(context) * 0.02,
           horizontal: DeviceRepository.deviceWidth(context) * 0.05,
         ),
         child: PostFeedWidget(
