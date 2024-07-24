@@ -51,6 +51,52 @@ class PostRepository {
     }
   }
 
+  Future<void> deletePost({
+    required String postId,
+    required String posterId,
+    required String likedBy,
+    required String userId,
+  }) async {
+    try {
+      if (posterId != userId) {
+        return;
+      }
+
+      List<String> toDeletePosts = [];
+      List<String> toDeleteLikes = [likedBy];
+      List<String> toProcess = [postId];
+      while (toProcess.isNotEmpty) {
+        final String curr = toProcess.removeAt(0);
+        await _firebaseFirestore
+            .collection('posts')
+            .where('replyTo', isEqualTo: curr)
+            .get()
+            .then((repliesSnapshot) => {
+                  for (var reply in repliesSnapshot.docs)
+                    {
+                      toProcess.add(reply.id),
+                      toDeleteLikes.add(reply.get('likedBy')),
+                    }
+                });
+
+        toDeletePosts.add(curr);
+        //developer.log('${toDelete}');
+      }
+
+      await Future.wait(toDeletePosts
+          .map((id) => _firebaseFirestore.doc('posts/$id').delete())
+          .toList());
+
+      await Future.wait(toDeleteLikes
+          .map((id) => _firebaseFirestore.doc('likes/$id').delete())
+          .toList());
+      return;
+    } catch (e) {
+      developer.log('$e');
+      throw '$e';
+    }
+  }
+
   Future<(bool, int)> updatePostLikes({
     required Post post,
     required String userId,

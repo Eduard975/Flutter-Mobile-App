@@ -15,6 +15,7 @@ class DisplayPost {
 
   Widget displayFeed(BuildContext context, String userId,
       [String? replyTo, Widget? topOfList]) {
+    bool isInReplyThread = (topOfList != null);
     return StreamBuilder<List<Post>>(
       stream: context.read<PostRepository>().retriveStream(replyTo: replyTo),
       builder: (context, postsSnapshot) {
@@ -23,7 +24,7 @@ class DisplayPost {
         } else if (postsSnapshot.connectionState == ConnectionState.active ||
             postsSnapshot.connectionState == ConnectionState.done) {
           if (postsSnapshot.hasData && postsSnapshot.data!.isNotEmpty) {
-            var itemCount = topOfList != null
+            var itemCount = isInReplyThread
                 ? postsSnapshot.data!.length + 1
                 : postsSnapshot.data!.length;
 
@@ -40,8 +41,13 @@ class DisplayPost {
                     post = postsSnapshot.data![index - 1];
                   }
                 }
-                return DisplayPost()
-                    .displayPost(context, post, userId, replyTo);
+                return DisplayPost().displayPost(
+                  context,
+                  post,
+                  userId,
+                  isInReplyThread,
+                  replyTo,
+                );
               },
             );
           } else if (postsSnapshot.hasError) {
@@ -68,7 +74,8 @@ class DisplayPost {
     );
   }
 
-  Widget displayPost(BuildContext context, Post post, String userId,
+  Widget displayPost(
+      BuildContext context, Post post, String userId, bool isInReplyThread,
       [String? replyTo]) {
     return Container(
       padding: const EdgeInsets.all(16.0),
@@ -81,19 +88,18 @@ class DisplayPost {
         minHeight: 10,
         maxHeight: 250,
       ),
-      child: Column(
+      child: Flex(
         mainAxisSize: MainAxisSize.min,
         verticalDirection: VerticalDirection.down,
         crossAxisAlignment: CrossAxisAlignment.start,
+        direction: Axis.vertical,
         children: [
-          displayPosterId(post.posterId, replyTo),
+          displayTopRow(context, post, userId, replyTo, isInReplyThread),
           displayPostText(post.postText),
-          const Flexible(flex: 1, child: SizedBox(height: 10)),
           ImageCarousel(
             futureUrls:
                 context.read<PostRepository>().retrivePostImages(post: post),
           ),
-          const Flexible(flex: 1, child: SizedBox(height: 20)),
           displayBottomRow(context, post, userId),
         ],
       ),
@@ -120,7 +126,8 @@ class DisplayPost {
   }
 
   Widget displayReplyBtn(BuildContext context, Post post, String userId) {
-    return IntrinsicHeight(
+    return Flexible(
+      flex: 1,
       child: IconButton(
         onPressed: () => Navigator.push(context, MaterialPageRoute(
           builder: (context) {
@@ -159,26 +166,53 @@ class DisplayPost {
     );
   }
 
-  Widget displayPosterId(String posterId, String? replyTo) {
-    return Row(
-      children: [
-        Text(
-          posterId,
-          style: const TextStyle(
-            fontSize: 18.0,
-            fontWeight: FontWeight.bold,
-            color: Colors.black87,
+  Widget displayTopRow(
+    BuildContext context,
+    Post post,
+    String userId,
+    String? replyTo,
+    bool isInReplyThread,
+  ) {
+    return SizedBox(
+      height: 30,
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text(
+            post.posterId + ((replyTo == null) ? ' a postat:' : ' a comentat:'),
+            style: const TextStyle(
+              fontSize: 16.0,
+              fontWeight: FontWeight.bold,
+              color: Colors.black87,
+            ),
           ),
-        ),
-        Text(
-          (replyTo == null) ? ' a postat:' : ' a comentat:',
-          style: const TextStyle(
-            fontSize: 16.0,
-            fontWeight: FontWeight.normal,
-            color: Colors.black87,
-          ),
-        ),
-      ],
+          displayDeleteButton(context, post, userId, isInReplyThread)
+        ],
+      ),
     );
+  }
+
+  Widget displayDeleteButton(
+    BuildContext context,
+    Post post,
+    String userId,
+    bool isInReplyThread,
+  ) {
+    return (post.posterId == userId)
+        ? IconButton(
+            onPressed: () => {
+              context.read<PostRepository>().deletePost(
+                    postId: post.postId,
+                    posterId: post.posterId,
+                    likedBy: post.likedBy!,
+                    userId: userId,
+                  ),
+              if (post.replyTo == null || isInReplyThread)
+                {Navigator.pop(context)}
+            },
+            icon: const Icon(Icons.delete),
+            iconSize: 20,
+          )
+        : Container();
   }
 }
