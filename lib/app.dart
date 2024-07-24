@@ -1,4 +1,5 @@
 import 'package:first_app/new_post/view/new_post_page.dart';
+import 'package:first_app/profile/view/profile_page.dart';
 import 'package:first_app/register/view/register_page.dart';
 import 'package:flutter/material.dart';
 
@@ -83,6 +84,7 @@ class _AppViewState extends State<AppView> {
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/new_post': (context) => const NewPostPage(),
+        '/profile': (context) => const ProfilePage(),
       },
       initialRoute: '/',
       builder: (context, child) {

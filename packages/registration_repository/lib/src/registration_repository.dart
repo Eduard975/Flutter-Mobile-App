@@ -53,6 +53,7 @@ class RegistrationRepository {
       required String name,
       required String password}) async {
     try {
+      // TODO require more information on registration
       firebase_auth.UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,

@@ -36,7 +36,10 @@ class HomePage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               ElevatedButton(
-                onPressed: () async {},
+                onPressed: () => Navigator.pushNamed(
+                  context,
+                  '/profile',
+                ),
                 style: ElevatedButton.styleFrom(
                   alignment: Alignment.centerLeft,
                 ),
