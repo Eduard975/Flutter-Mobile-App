@@ -1,19 +1,21 @@
-import 'package:first_app/new_post/new_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:formz/formz.dart';
+import '../cubit/profile_cubit.dart';
+import '../cubit/profile_state.dart';
+
 // import 'dart:developer' as developer;
 
-class NewPostForm extends StatelessWidget {
+class ProfileForm extends StatelessWidget {
   final String userId;
-  const NewPostForm({
+  const ProfileForm({
     required this.userId,
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<NewPostCubit, NewPostState>(
+    return BlocListener<ProfileCubit, ProfileState>(
       listener: (context, state) {
         if (state.status == FormzSubmissionStatus.failure) {
           ScaffoldMessenger.of(context)
