@@ -1,6 +1,8 @@
 import 'dart:async';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:user_repository/user_repository.dart';
 
 enum RegistrationStatus { unknown, unregistered, registered }
 
@@ -15,10 +17,6 @@ class RegisterWithEmailAndPasswordFailure implements Exception {
       case 'invalid-email':
         return const RegisterWithEmailAndPasswordFailure(
           'Emailul introdus este invalid sau scris gresit.',
-        );
-      case 'user-disabled':
-        return const RegisterWithEmailAndPasswordFailure(
-          'Of of, tot banat.',
         );
       case 'email-already-in-use':
         return const RegisterWithEmailAndPasswordFailure(
@@ -62,7 +60,16 @@ class RegistrationRepository {
 
       firebase_auth.User? user = userCredential.user;
       if (user != null) {
-        await user.updateDisplayName(name);
+        String? userId = await user.uid;
+
+        User myUser = User(id: userId, email: email, name: name);
+        await FirebaseFirestore.instance
+            .collection(
+              'users',
+            )
+            .doc(myUser.id)
+            .set(myUser.toJson());
+
         await user.reload();
       }
     } on firebase_auth.FirebaseAuthException catch (e) {

@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart' as firebase_auth;
 import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:google_sign_in/google_sign_in.dart';
@@ -61,10 +62,7 @@ class LogInWithGoogleFailure implements Exception {
         return const LogInWithGoogleFailure(
           'Esti banat(nu judetul).',
         );
-      case 'user-not-found':
-        return const LogInWithGoogleFailure(
-          'Contul introdus nu exista.',
-        );
+
       case 'wrong-password':
         return const LogInWithGoogleFailure(
           'Ireal cat de gresita e parola.',
@@ -109,6 +107,7 @@ class AuthenticationRepository {
   Stream<User> get user {
     return _firebaseAuth.authStateChanges().map((firebaseUser) {
       final user = firebaseUser == null ? User.empty : firebaseUser.toUser;
+
       return user;
     });
   }
@@ -124,8 +123,36 @@ class AuthenticationRepository {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
+        bool userIdExists = false;
+
+        await FirebaseFirestore.instance
+            .collection('users')
+            .where('id', isEqualTo: googleUser.id)
+            .get()
+            .then(
+              (userSnapshot) => {
+                if (userSnapshot.docs.isNotEmpty)
+                  {
+                    userIdExists = true,
+                  }
+              },
+            );
+
+        // if (!userIdExists) {
+        //   await FirebaseFirestore.instance
+        //       .collection(
+        //         'users',
+        //       )
+        //       .doc(googleUser.id)
+        //       .set(User(
+        //               id: googleUser.id,
+        //               name: googleUser.displayName!,
+        //               email: googleUser.email)
+        //           .toJson());
+        // }
 
         await _firebaseAuth.signInWithCredential(credential);
+
         await Future(
           () => _controller.add(AuthenticationStatus.authenticated),
         );

@@ -6,4 +6,10 @@ import 'dart:developer' as developer;
 
 class UserRepository {
   UserRepository();
+
+  Future<void> updateUserProfile({
+    required String userID,
+    String? newProfileImg = null,
+    String? newUserDescription = null,
+  }) async {}
 }
