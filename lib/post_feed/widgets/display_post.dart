@@ -207,7 +207,7 @@ class DisplayPost {
                     likedBy: post.likedBy!,
                     userId: userId,
                   ),
-              if (post.replyTo == null || isInReplyThread)
+              if (post.replyTo == null && isInReplyThread)
                 {Navigator.pop(context)}
             },
             icon: const Icon(Icons.delete),

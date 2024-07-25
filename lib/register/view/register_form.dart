@@ -12,12 +12,18 @@ class RegisterForm extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocListener<RegisterBloc, RegisterState>(
       listener: (context, state) {
-        if (state.status.isFailure) {
+        if (state.status == FormzSubmissionStatus.failure) {
           ScaffoldMessenger.of(context)
             ..hideCurrentSnackBar()
             ..showSnackBar(
-              const SnackBar(content: Text('Registration Failure')),
+              SnackBar(content: Text('Inregistrare Esuata: ${state.errMsg}')),
             );
+        }
+        if (state.status == FormzSubmissionStatus.success) {
+          Navigator.popUntil(
+            context,
+            ModalRoute.withName('/login'),
+          );
         }
       },
       child: Align(
@@ -120,6 +126,7 @@ class _RegisterButton extends StatelessWidget {
       Password:${state.username}''',
           name: 'LOG reg button change',
         );
+
         return state.status.isInProgress
             ? const CircularProgressIndicator()
             : ElevatedButton(
@@ -129,10 +136,6 @@ class _RegisterButton extends StatelessWidget {
                         context
                             .read<RegisterBloc>()
                             .add(const RegisterSubmitted());
-                        Navigator.popUntil(
-                          context,
-                          ModalRoute.withName('/login'),
-                        );
                       }
                     : null,
                 child: const Text('Register'),

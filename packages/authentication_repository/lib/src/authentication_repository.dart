@@ -123,35 +123,26 @@ class AuthenticationRepository {
           accessToken: googleAuth.accessToken,
           idToken: googleAuth.idToken,
         );
-        bool userIdExists = false;
-
-        await FirebaseFirestore.instance
-            .collection('users')
-            .where('id', isEqualTo: googleUser.id)
-            .get()
-            .then(
-              (userSnapshot) => {
-                if (userSnapshot.docs.isNotEmpty)
-                  {
-                    userIdExists = true,
-                  }
-              },
-            );
-
-        // if (!userIdExists) {
-        //   await FirebaseFirestore.instance
-        //       .collection(
-        //         'users',
-        //       )
-        //       .doc(googleUser.id)
-        //       .set(User(
-        //               id: googleUser.id,
-        //               name: googleUser.displayName!,
-        //               email: googleUser.email)
-        //           .toJson());
-        // }
-
         await _firebaseAuth.signInWithCredential(credential);
+
+        bool userIdExists = await (await FirebaseFirestore.instance
+                .collection('users')
+                .doc(googleUser.id)
+                .get())
+            .exists;
+
+        if (!userIdExists) {
+          await FirebaseFirestore.instance
+              .collection(
+                'users',
+              )
+              .doc(googleUser.id)
+              .set(User(
+                id: googleUser.id,
+                name: googleUser.displayName!,
+                email: googleUser.email,
+              ).toJson());
+        }
 
         await Future(
           () => _controller.add(AuthenticationStatus.authenticated),
@@ -202,6 +193,10 @@ class AuthenticationRepository {
 
 extension on firebase_auth.User {
   User get toUser {
-    return User(id: uid, email: email!, name: displayName!);
+    return User(
+      id: uid,
+      email: email!,
+      name: displayName!,
+    );
   }
 }

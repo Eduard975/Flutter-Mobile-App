@@ -8,6 +8,7 @@ part 'register_state.freezed.dart';
 class RegisterState with _$RegisterState {
   const factory RegisterState({
     @Default(FormzSubmissionStatus.initial) FormzSubmissionStatus status,
+    @Default('') String errMsg,
     @Default(Email.pure()) Email email,
     @Default(Username.pure()) Username username,
     @Default(Password.pure()) Password password,

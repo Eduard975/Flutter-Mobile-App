@@ -7,6 +7,7 @@ import 'package:user_repository/user_repository.dart';
 enum RegistrationStatus { unknown, unregistered, registered }
 
 class RegisterWithEmailAndPasswordFailure implements Exception {
+  final String message;
   const RegisterWithEmailAndPasswordFailure([
     this.message = 'An unknown exception occurred.',
   ]);
@@ -34,8 +35,6 @@ class RegisterWithEmailAndPasswordFailure implements Exception {
         return const RegisterWithEmailAndPasswordFailure();
     }
   }
-
-  final String message;
 }
 
 class RegistrationRepository {
@@ -62,13 +61,20 @@ class RegistrationRepository {
       if (user != null) {
         String? userId = await user.uid;
 
-        User myUser = User(id: userId, email: email, name: name);
         await FirebaseFirestore.instance
             .collection(
               'users',
             )
-            .doc(myUser.id)
-            .set(myUser.toJson());
+            .doc(userId)
+            .set(
+              User(
+                id: userId,
+                email: email,
+                name: name,
+              ).toJson(),
+            );
+
+        //.set(myUser.toJson());
 
         await user.reload();
       }

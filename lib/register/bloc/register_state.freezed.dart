@@ -17,6 +17,7 @@ final _privateConstructorUsedError = UnsupportedError(
 /// @nodoc
 mixin _$RegisterState {
   FormzSubmissionStatus get status => throw _privateConstructorUsedError;
+  String get errMsg => throw _privateConstructorUsedError;
   Email get email => throw _privateConstructorUsedError;
   Username get username => throw _privateConstructorUsedError;
   Password get password => throw _privateConstructorUsedError;
@@ -35,6 +36,7 @@ abstract class $RegisterStateCopyWith<$Res> {
   @useResult
   $Res call(
       {FormzSubmissionStatus status,
+      String errMsg,
       Email email,
       Username username,
       Password password,
@@ -55,6 +57,7 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
   @override
   $Res call({
     Object? status = null,
+    Object? errMsg = null,
     Object? email = null,
     Object? username = null,
     Object? password = null,
@@ -65,6 +68,10 @@ class _$RegisterStateCopyWithImpl<$Res, $Val extends RegisterState>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      errMsg: null == errMsg
+          ? _value.errMsg
+          : errMsg // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -95,6 +102,7 @@ abstract class _$$RegisterStateImplCopyWith<$Res>
   @useResult
   $Res call(
       {FormzSubmissionStatus status,
+      String errMsg,
       Email email,
       Username username,
       Password password,
@@ -113,6 +121,7 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
   @override
   $Res call({
     Object? status = null,
+    Object? errMsg = null,
     Object? email = null,
     Object? username = null,
     Object? password = null,
@@ -123,6 +132,10 @@ class __$$RegisterStateImplCopyWithImpl<$Res>
           ? _value.status
           : status // ignore: cast_nullable_to_non_nullable
               as FormzSubmissionStatus,
+      errMsg: null == errMsg
+          ? _value.errMsg
+          : errMsg // ignore: cast_nullable_to_non_nullable
+              as String,
       email: null == email
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
@@ -150,6 +163,7 @@ class _$RegisterStateImpl
     implements _RegisterState {
   const _$RegisterStateImpl(
       {this.status = FormzSubmissionStatus.initial,
+      this.errMsg = '',
       this.email = const Email.pure(),
       this.username = const Username.pure(),
       this.password = const Password.pure(),
@@ -158,6 +172,9 @@ class _$RegisterStateImpl
   @override
   @JsonKey()
   final FormzSubmissionStatus status;
+  @override
+  @JsonKey()
+  final String errMsg;
   @override
   @JsonKey()
   final Email email;
@@ -173,7 +190,7 @@ class _$RegisterStateImpl
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
-    return 'RegisterState(status: $status, email: $email, username: $username, password: $password, isValid: $isValid)';
+    return 'RegisterState(status: $status, errMsg: $errMsg, email: $email, username: $username, password: $password, isValid: $isValid)';
   }
 
   @override
@@ -182,6 +199,7 @@ class _$RegisterStateImpl
     properties
       ..add(DiagnosticsProperty('type', 'RegisterState'))
       ..add(DiagnosticsProperty('status', status))
+      ..add(DiagnosticsProperty('errMsg', errMsg))
       ..add(DiagnosticsProperty('email', email))
       ..add(DiagnosticsProperty('username', username))
       ..add(DiagnosticsProperty('password', password))
@@ -194,6 +212,7 @@ class _$RegisterStateImpl
         (other.runtimeType == runtimeType &&
             other is _$RegisterStateImpl &&
             (identical(other.status, status) || other.status == status) &&
+            (identical(other.errMsg, errMsg) || other.errMsg == errMsg) &&
             (identical(other.email, email) || other.email == email) &&
             (identical(other.username, username) ||
                 other.username == username) &&
@@ -203,8 +222,8 @@ class _$RegisterStateImpl
   }
 
   @override
-  int get hashCode =>
-      Object.hash(runtimeType, status, email, username, password, isValid);
+  int get hashCode => Object.hash(
+      runtimeType, status, errMsg, email, username, password, isValid);
 
   @JsonKey(ignore: true)
   @override
@@ -216,6 +235,7 @@ class _$RegisterStateImpl
 abstract class _RegisterState implements RegisterState {
   const factory _RegisterState(
       {final FormzSubmissionStatus status,
+      final String errMsg,
       final Email email,
       final Username username,
       final Password password,
@@ -223,6 +243,8 @@ abstract class _RegisterState implements RegisterState {
 
   @override
   FormzSubmissionStatus get status;
+  @override
+  String get errMsg;
   @override
   Email get email;
   @override

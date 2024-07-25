@@ -105,8 +105,11 @@ class RegisterBloc extends Bloc<RegisterEvent, RegisterState> {
         );
 
         emit(state.copyWith(status: FormzSubmissionStatus.success));
-      } catch (_) {
-        emit(state.copyWith(status: FormzSubmissionStatus.failure));
+      } on RegisterWithEmailAndPasswordFailure catch (e) {
+        emit(state.copyWith(
+          status: FormzSubmissionStatus.failure,
+          errMsg: e.message,
+        ));
       }
     }
   }
