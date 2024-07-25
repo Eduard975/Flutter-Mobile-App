@@ -48,12 +48,12 @@ class RegistrationRepository {
 
   final firebase_auth.FirebaseAuth _firebaseAuth;
 
-  Future<void> register(
-      {required String email,
-      required String name,
-      required String password}) async {
+  Future<void> register({
+    required String email,
+    required String name,
+    required String password,
+  }) async {
     try {
-      // TODO require more information on registration
       firebase_auth.UserCredential userCredential =
           await _firebaseAuth.createUserWithEmailAndPassword(
         email: email,

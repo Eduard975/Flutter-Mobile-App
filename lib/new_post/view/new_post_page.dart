@@ -6,11 +6,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:post_repository/post_repository.dart';
 
 class NewPostPage extends StatelessWidget {
-  final String? userId;
   final String? replyTo;
 
   const NewPostPage({
-    this.userId,
     this.replyTo,
     super.key,
   });
@@ -18,7 +16,6 @@ class NewPostPage extends StatelessWidget {
   Route<void> route() {
     return MaterialPageRoute<void>(
       builder: (_) => NewPostPage(
-        userId: userId,
         replyTo: replyTo,
       ),
     );
