@@ -9,8 +9,8 @@ class User with _$User {
     required String id,
     required String name,
     required String email,
-    @Default('') String photoUrl,
-    @Default('') String description,
+    @Default(null) String? photoUrl,
+    @Default(null) String? description,
   }) = _User;
   const User._();
   static const empty = User(id: '', name: '', email: '');

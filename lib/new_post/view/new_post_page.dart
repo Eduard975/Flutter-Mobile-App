@@ -1,6 +1,5 @@
 import 'package:first_app/authentication/bloc/authentication_bloc.dart';
-import 'package:first_app/new_post/cubit/new_post_cubit.dart';
-import 'package:first_app/new_post/view/new_post_form.dart';
+import 'package:first_app/new_post/new_post.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:post_repository/post_repository.dart';

@@ -25,7 +25,7 @@ class PostRepository {
             'likes',
           )
           .doc();
-      final storageRef = FirebaseStorage.instance.ref();
+      Reference storageRef = FirebaseStorage.instance.ref();
 
       await likesDocRef.set(Likes.empty.toJson());
 

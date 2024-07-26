@@ -23,8 +23,8 @@ mixin _$User {
   String get id => throw _privateConstructorUsedError;
   String get name => throw _privateConstructorUsedError;
   String get email => throw _privateConstructorUsedError;
-  String get photoUrl => throw _privateConstructorUsedError;
-  String get description => throw _privateConstructorUsedError;
+  String? get photoUrl => throw _privateConstructorUsedError;
+  String? get description => throw _privateConstructorUsedError;
 
   Map<String, dynamic> toJson() => throw _privateConstructorUsedError;
   @JsonKey(ignore: true)
@@ -40,8 +40,8 @@ abstract class $UserCopyWith<$Res> {
       {String id,
       String name,
       String email,
-      String photoUrl,
-      String description});
+      String? photoUrl,
+      String? description});
 }
 
 /// @nodoc
@@ -60,8 +60,8 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? photoUrl = null,
-    Object? description = null,
+    Object? photoUrl = freezed,
+    Object? description = freezed,
   }) {
     return _then(_value.copyWith(
       id: null == id
@@ -76,14 +76,14 @@ class _$UserCopyWithImpl<$Res, $Val extends User>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      photoUrl: null == photoUrl
+      photoUrl: freezed == photoUrl
           ? _value.photoUrl
           : photoUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ) as $Val);
   }
 }
@@ -99,8 +99,8 @@ abstract class _$$UserImplCopyWith<$Res> implements $UserCopyWith<$Res> {
       {String id,
       String name,
       String email,
-      String photoUrl,
-      String description});
+      String? photoUrl,
+      String? description});
 }
 
 /// @nodoc
@@ -116,8 +116,8 @@ class __$$UserImplCopyWithImpl<$Res>
     Object? id = null,
     Object? name = null,
     Object? email = null,
-    Object? photoUrl = null,
-    Object? description = null,
+    Object? photoUrl = freezed,
+    Object? description = freezed,
   }) {
     return _then(_$UserImpl(
       id: null == id
@@ -132,14 +132,14 @@ class __$$UserImplCopyWithImpl<$Res>
           ? _value.email
           : email // ignore: cast_nullable_to_non_nullable
               as String,
-      photoUrl: null == photoUrl
+      photoUrl: freezed == photoUrl
           ? _value.photoUrl
           : photoUrl // ignore: cast_nullable_to_non_nullable
-              as String,
-      description: null == description
+              as String?,
+      description: freezed == description
           ? _value.description
           : description // ignore: cast_nullable_to_non_nullable
-              as String,
+              as String?,
     ));
   }
 }
@@ -151,8 +151,8 @@ class _$UserImpl extends _User with DiagnosticableTreeMixin {
       {required this.id,
       required this.name,
       required this.email,
-      this.photoUrl = '',
-      this.description = ''})
+      this.photoUrl = null,
+      this.description = null})
       : super._();
 
   factory _$UserImpl.fromJson(Map<String, dynamic> json) =>
@@ -166,10 +166,10 @@ class _$UserImpl extends _User with DiagnosticableTreeMixin {
   final String email;
   @override
   @JsonKey()
-  final String photoUrl;
+  final String? photoUrl;
   @override
   @JsonKey()
-  final String description;
+  final String? description;
 
   @override
   String toString({DiagnosticLevel minLevel = DiagnosticLevel.info}) {
@@ -226,8 +226,8 @@ abstract class _User extends User {
       {required final String id,
       required final String name,
       required final String email,
-      final String photoUrl,
-      final String description}) = _$UserImpl;
+      final String? photoUrl,
+      final String? description}) = _$UserImpl;
   const _User._() : super._();
 
   factory _User.fromJson(Map<String, dynamic> json) = _$UserImpl.fromJson;
@@ -239,9 +239,9 @@ abstract class _User extends User {
   @override
   String get email;
   @override
-  String get photoUrl;
+  String? get photoUrl;
   @override
-  String get description;
+  String? get description;
   @override
   @JsonKey(ignore: true)
   _$$UserImplCopyWith<_$UserImpl> get copyWith =>

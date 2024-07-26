@@ -3,17 +3,18 @@ import 'package:first_app/profile/view/profile_page.dart';
 import 'package:first_app/register/view/register_page.dart';
 import 'package:flutter/material.dart';
 
-// Local packages
 import 'package:authentication_repository/authentification_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:first_app/authentication/authentication.dart';
 import 'package:first_app/home/home.dart';
+
 import 'package:first_app/login/login.dart';
 import 'package:first_app/splash/splash.dart';
 import 'package:post_repository/post_repository.dart';
 import 'package:registration_repository/registration_repository.dart';
 
 import 'package:device_repository/device_repository.dart';
+import 'package:user_repository/user_repository.dart';
 
 class App extends StatefulWidget {
   const App({super.key});
@@ -27,6 +28,7 @@ class _AppState extends State<App> {
   late final RegistrationRepository _registrationRepository;
   late final PostRepository _postRepository;
   late final DeviceRepository _deviceRepository;
+  late final UserRepository _userRepository;
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _AppState extends State<App> {
     _registrationRepository = RegistrationRepository();
     _postRepository = PostRepository();
     _deviceRepository = DeviceRepository();
+    _userRepository = UserRepository();
   }
 
   @override
@@ -49,6 +52,7 @@ class _AppState extends State<App> {
       providers: [
         RepositoryProvider.value(value: _authenticationRepository),
         RepositoryProvider.value(value: _registrationRepository),
+        RepositoryProvider.value(value: _userRepository),
         RepositoryProvider.value(value: _postRepository),
         RepositoryProvider.value(value: _deviceRepository),
       ],
@@ -81,10 +85,10 @@ class _AppViewState extends State<AppView> {
       routes: {
         '/': (context) => const SplashPage(),
         '/home': (context) => const HomePage(),
+        '/profile': (context) => const ProfilePage(),
         '/login': (context) => const LoginPage(),
         '/register': (context) => const RegisterPage(),
         '/new_post': (context) => const NewPostPage(),
-        '/profile': (context) => const ProfilePage(),
       },
       initialRoute: '/',
       builder: (context, child) {

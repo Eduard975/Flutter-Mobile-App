@@ -1,4 +1,5 @@
 import 'package:formz/formz.dart';
+//import 'package:cloud_firestore/cloud_firestore.dart';
 
 enum UsernameValidationError { invalid }
 
@@ -24,7 +25,21 @@ class Username extends FormzInput<String, UsernameValidationError> {
 
   @override
   UsernameValidationError? validator(String? value) {
-    return _usernameRegExp.hasMatch(value ?? '')
+    bool respectTextFormatCondition = (_usernameRegExp.hasMatch(value ?? ''));
+    bool noDuplicateUsernameCondition = true;
+
+    // FirebaseFirestore.instance
+    //     .collection('Users')
+    //     .where('name', isEqualTo: value)
+    //     .get()
+    //     .then((snapshot) => {
+    //           if (snapshot.docs.isNotEmpty)
+    //             {
+    //               noDuplicateUsernameCondition = false,
+    //             }
+    //         });
+
+    return (respectTextFormatCondition && noDuplicateUsernameCondition)
         ? null
         : UsernameValidationError.invalid;
   }
