@@ -14,7 +14,7 @@ class ProfileForm extends StatelessWidget {
     required this.user,
     super.key,
   });
-  //TODO: Add
+  //TODO: Add options for users to edit their profile
   @override
   Widget build(BuildContext context) {
     return BlocListener<ProfileCubit, ProfileState>(
